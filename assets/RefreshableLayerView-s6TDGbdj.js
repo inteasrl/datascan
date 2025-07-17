@@ -1,1 +1,0 @@
-import{r as i,y as t,db as h,a3 as d,a6 as l}from"./dati-Sj8ZgBAR.js";const f=s=>{let e=class extends s{initialize(){this.addHandles(h(()=>this.layer,"refresh",r=>{this.doRefresh(r.dataChanged).catch(a=>{d(a)||l.getLogger(this).error(a)})}),"RefreshableLayerView")}};return e=i([t("esri.views.layers.RefreshableLayerView")],e),e};export{f as i};
