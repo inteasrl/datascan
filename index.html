@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Mappa + Tabella Esri</title>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.27/esri/themes/light/main.css" />
+  <script src="https://js.arcgis.com/4.27/"></script>
+  <style>
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+    .prof {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .selected {
+      scale: 1.10;
+
+    }
+
+    .selected::after {
+      width: 100%;
+    }
+  </style>
+  <script type="module" crossorigin src="https://github.com/inteasrl/datascan/assets/main-C8wwvh3V.js"></script>
+  <link rel="modulepreload" crossorigin href="https://github.com/inteasrl/datascan/assets/style-BT8lkhQM.js">
+  <link rel="stylesheet" crossorigin href="https://github.com/inteasrl/datascan/assets/style-CxafYHJr.css">
+</head>
+
+<body class="flex flex-col justify-around items-center">
+  <inst class="w-full">
+    <div class="bg-instblue w-full h-fit p-3 flex justify-center items-center">
+      <div class="flex w-[80%]  justify-around items-center">
+        <img src="https://github.com/inteasrl/datascan/assets/IT%20Finanziato%20dall'Unione%20europea_tracciato_BLUE_WHITE-As63_u-u.png" alt="logo UE"
+          class="h-12">
+        <img src="https://github.com/inteasrl/datascan/assets/LOGO_UniversitaRicerca_tracciato_WHITE-B4PD9IO7.png" alt="logo miur" class="h-10">
+        <img src="https://github.com/inteasrl/datascan/assets/italiadomani-tracciato-bianco2-Ct9CPsNV.PNG" alt="logo UE" class="h-12">
+        <img src="https://github.com/inteasrl/datascan/assets/logoInteaBianco2-C5yTKQ4u.svg" alt="logo UE" class="h-12">
+      </div>
+    </div>
+  </inst>
+
+  <div class="w-full h-96 overflow-clip relative">
+    <img class="absolute top-[25%] h-52 z-100 left-[15%]"
+      src="https://github.com/inteasrl/datascan/assets/logo-CVoT68yq.png" alt="">
+    <div id="viewDiv"></div>
+  </div>
+
+  <navbar style="font-family: 'Oswald', sans-serif; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);"
+    class="sticky z-100 top-0 bg-gray-50 flex flex-col w-full justify-around py-5 text-gray-600">
+    <div class="flex justify-around w-full">
+      <ul class="flex gap-10">
+        <a href="./">
+          <li
+            class="text-3xl text-instblue relative after:bg-instblue after:absolute after:h-1  after:top-9 after:left-0 after:w-full after:transition-all after:duration-400 cursor-pointer">
+            HOME</li>
+        </a>
+        <a href="./dati.html">
+          <li
+            class="text-3xl relative after:bg-gray-600 after:absolute after:h-1 after:w-0 after:top-9 after:left-0 hover:after:w-full after:transition-all after:duration-400 cursor-pointer">
+            DASHBOARD</li>
+        </a>
+        <a href="./">
+          <li
+            class="text-3xl relative after:bg-gray-600 after:absolute after:h-1 after:w-0 after:top-9 after:left-0 hover:after:w-full after:transition-all after:duration-400 cursor-pointer">
+            ABOUT US</li>
+        </a>
+        <a href="./">
+          <li
+            class="text-3xl relative after:bg-gray-600 after:absolute after:h-1 after:w-0 after:top-9 after:left-0 hover:after:w-full after:transition-all after:duration-400 cursor-pointer">
+            CONTATTI</li>
+        </a>
+      </ul>
+
+      <ul class="hidden lg:flex gap-10 items-center">
+        <svg class="h-8" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="64" height="64"
+          viewBox="0,0,256,256">
+          <g fill-opacity="0.6902" fill="#000000" fill-rule="nonzero" stroke="none" stroke-width="1"
+            stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray=""
+            stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none"
+            style="mix-blend-mode: normal">
+            <g transform="scale(4,4)">
+              <path
+                d="M21.58008,7c-8.039,0 -14.58008,6.54494 -14.58008,14.58594v20.83203c0,8.04 6.54494,14.58203 14.58594,14.58203h20.83203c8.04,0 14.58203,-6.54494 14.58203,-14.58594v-20.83398c0,-8.039 -6.54494,-14.58008 -14.58594,-14.58008zM47,15c1.104,0 2,0.896 2,2c0,1.104 -0.896,2 -2,2c-1.104,0 -2,-0.896 -2,-2c0,-1.104 0.896,-2 2,-2zM32,19c7.17,0 13,5.83 13,13c0,7.17 -5.831,13 -13,13c-7.17,0 -13,-5.831 -13,-13c0,-7.169 5.83,-13 13,-13zM32,23c-4.971,0 -9,4.029 -9,9c0,4.971 4.029,9 9,9c4.971,0 9,-4.029 9,-9c0,-4.971 -4.029,-9 -9,-9z">
+              </path>
+            </g>
+          </g>
+        </svg>
+
+
+        <svg class="h-7.5" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50"
+          viewBox="0,0,256,256">
+          <g fill-opacity="0.6902" fill="#000000" fill-rule="nonzero" stroke="none" stroke-width="1"
+            stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray=""
+            stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none"
+            style="mix-blend-mode: normal">
+            <g transform="scale(5.12,5.12)">
+              <path
+                d="M41,4h-32c-2.76,0 -5,2.24 -5,5v32c0,2.76 2.24,5 5,5h32c2.76,0 5,-2.24 5,-5v-32c0,-2.76 -2.24,-5 -5,-5zM17,20v19h-6v-19zM11,14.47c0,-1.4 1.2,-2.47 3,-2.47c1.8,0 2.93,1.07 3,2.47c0,1.4 -1.12,2.53 -3,2.53c-1.8,0 -3,-1.13 -3,-2.53zM39,39h-6c0,0 0,-9.26 0,-10c0,-2 -1,-4 -3.5,-4.04h-0.08c-2.42,0 -3.42,2.06 -3.42,4.04c0,0.91 0,10 0,10h-6v-19h6v2.56c0,0 1.93,-2.56 5.81,-2.56c3.97,0 7.19,2.73 7.19,8.26z">
+              </path>
+            </g>
+          </g>
+        </svg>
+
+
+        <svg class="h-8" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50"
+          viewBox="0,0,256,256">
+          <g fill-opacity="0.6902" fill="#000000" fill-rule="nonzero" stroke="none" stroke-width="1"
+            stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray=""
+            stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none"
+            style="mix-blend-mode: normal">
+            <g transform="scale(5.12,5.12)">
+              <path
+                d="M11,4c-3.866,0 -7,3.134 -7,7v28c0,3.866 3.134,7 7,7h28c3.866,0 7,-3.134 7,-7v-28c0,-3.866 -3.134,-7 -7,-7zM13.08594,13h7.9375l5.63672,8.00977l6.83984,-8.00977h2.5l-8.21094,9.61328l10.125,14.38672h-7.93555l-6.54102,-9.29297l-7.9375,9.29297h-2.5l9.30859,-10.89648zM16.91406,15l14.10742,20h3.06445l-14.10742,-20z">
+              </path>
+            </g>
+          </g>
+        </svg>
+
+        <svg class="h-9" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="64" height="64"
+          viewBox="0,0,256,256">
+          <g fill-opacity="0.6902" fill="#000000" fill-rule="nonzero" stroke="none" stroke-width="1"
+            stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray=""
+            stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none"
+            style="mix-blend-mode: normal">
+            <g transform="scale(4,4)">
+              <path
+                d="M32,6c-14.358,0 -26,11.642 -26,26c0,13.035 9.603,23.799 22.113,25.679v-18.789h-6.433v-6.834h6.433v-4.548c0,-7.529 3.668,-10.833 9.926,-10.833c2.996,0 4.583,0.223 5.332,0.323v5.965h-4.268c-2.656,0 -3.584,2.52 -3.584,5.358v3.735h7.785l-1.055,6.834h-6.73v18.843c12.69,-1.72 22.481,-12.57 22.481,-25.733c0,-14.358 -11.641,-26 -26,-26z">
+              </path>
+            </g>
+          </g>
+        </svg>
+      </ul>
+    </div>
+    <div class="h-0.3 bg-black"></div>
+  </navbar>
+
+  <div class="flex flex-col items-start lg:items-end max-w-[1200px] pt-20 w-[80%]">
+    <h1 style="font-family: 'Oswald', sans-serif" class="text-5xl text-slate-600 text-end">IL PROGETTO DATASCAN</h1>
+    <div class="flex lg:flex-row flex-col-reverse items-center lg:items-end  lg:flex lg:justify-between  mt-10">
+
+      <div
+        class="flex flex-row w-[95%] lg:w-fit justify-between lg:flex-col lg:justify-start items-center align-middle">
+
+        <div class="w-fit">
+          <p style="font-family: 'Oswald', sans-serif" id="count" class="text-instblue text-6xl w-[100px]  mb-2"></p>
+          <p style="font-family: 'Oswald', sans-serif" class="text-gray-500 ">DI DATI ORARI</p>
+        </div>
+        <div class="lg:mt-10">
+          <p id="stat" style="font-family: 'Oswald', sans-serif" id="stat"
+            class="text-instblue text-6xl w-[100px] mb-2">
+            2,543</p>
+          <p style="font-family: 'Oswald', sans-serif" class="text-gray-500 ">CARTELLINI </p>
+        </div>
+      </div>
+      <div class="lg:w-[60%] w-full text-xl text-justify lg:mb-0 mb-10">
+        Datascan è un progetto istituzionale che si occupa della raccolta e digitalizzazione dei dati pluviometrici di
+        21
+        stazioni, con serie storiche continue dal 1970 ad oggi. Attraverso questa piattaforma, gli utenti possono
+        consultare i dati originali, acquisiti tramite cartellini pluviometrici scannerizzati e digitalizzati, a
+        supporto
+        di studi scientifici, analisi climatiche e monitoraggio ambientale. Il sito garantisce un accesso chiaro e
+        diretto
+        alle informazioni.
+      </div>
+    </div>
+  </div>
+
+  <div class="dic w-full bg-slate-300 mt-20 flex justify-center ">
+    <div id="pdiv" class="flex flex-col  items-center lg:px-0 max-w-[1180px] w-[80%] mt-20">
+      <div class="flex flex-col w-full lg:flex-row-reverse lg:items-start items-start lg:gap-20 justify-between">
+        <h1 style="font-family: 'Oswald', sans-serif"
+          class="text-5xl mb-10 lg:mb-0 text-end text-slate-600 w-full block">
+          IL NOSTRO TEAM
+        </h1>
+        <div id="presentazione" class="  lg:max-w-[50%] text-lg text-justify">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, rem. Et non repellat ad eum numquam corporis
+          nemo. Sit atque nostrum quos ullam vitae ipsa reprehenderit, voluptatem quibusdam eos Lorem ipsum dolor sit
+          amet consectetur adipisicing elit. Error laudantium obcaecati tempora cupiditate deserunt, reprehenderit enim
+          repellendus explicabo
+        </div>
+      </div>
+      <div class=" w-full mt-15">
+        <div class="flex  gap-10">
+          <div
+            class="selected after:h-3 bg-amber-50 after:w-0 after:bg-instblue after:absolute relative hover:after:w-full after:bottom-0 after:transition-all after:duration-400 after:ease-in-out cursor-pointer prof w-80 h-60 bg-center outline-4 outline-[rgba(255,255,255,0.6)] shadow-2xl  bg-cover hover:scale-[105%] transform transition duration-400 ease-in-out"
+            >
+          </div>
+          <div
+            class="after:h-3  bg-amber-50 after:w-0 after:bg-instblue after:absolute relative hover:after:w-full after:bottom-0 after:transition-all after:duration-400 after:ease-in-out  prof w-80 h-60 bg-center outline-4 outline-[rgba(255,255,255,0.6)] bg-cover hover:scale-[105%] transform transition duration-300 ease-in-out"
+            >
+
+          </div>
+          <div
+            class="after:h-3 after:w-0  bg-amber-50 after:bg-instblue after:absolute relative hover:after:w-full after:bottom-0 after:transition-all after:duration-400 after:ease-in-out cursor-pointer prof w-80 h-60 bg-center outline-4 outline-[rgba(255,255,255,0.6)] bg-cover hover:scale-[105%] transform transition duration-300 ease-in-out"
+            ;></div>
+          <div
+            class="after:h-3 after:w-0  bg-amber-50 after:bg-instblue after:absolute relative hover:after:w-full after:bottom-0 after:transition-all after:duration-400 after:ease-in-out  cursor-pointer prof w-80 h-60 bg-center outline-4 outline-[rgba(255,255,255,0.6)] bg-cover hover:scale-[105%] transform transition duration-300 ease-in-out"
+          ></div>
+        </div>
+        <div id="profdesc" class="flex flex-row-reverse gap-10 mt-24 justify-around">
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class=" w-full flex justify-center ">
+    <div id="pdiv" class="flex flex-col  items-center lg:px-0 max-w-[1180px] w-[80%] mt-20">
+      <div class="flex flex-col w-full lg:flex-row-reverse lg:items-start items-start lg:gap-20 justify-between">
+        <div class="lg:flex-col lg:h-full flex w-full lg:w-fit lg:justify-between flex-row justify-between mb-10">
+          <h1 style="font-family: 'Oswald', sans-serif" class="text-5xl mb-10 lg:mb-0  text-slate-600  block">
+            LA WEB APP
+          </h1>
+          <a href="./dati.html"><button style="font-family: 'Oswald', sans-serif"
+              class="lg:mb-10 p-4 block bg-instblue px-5 pb-5 text-white text-2xl after:h-3 after:w-0 hover:after:w-full after:bg-blue-200 hover:scale-105 relative after:absolute after:-bottom-0 after:left-0 h after:transition-all after:duration-300 transform transition duration-300 ease-in-out">VAI
+              ALLA
+              DASHBOARD</button></a>
+        </div>
+        <div class="flex flex-col lg:w-[50%] w-full">
+          <div  class="  text-lg text-justify">
+            Uno strumento pensato per esplorare e comprendere le precipitazioni del passato.
+            Questa webapp raccoglie e rende accessibili dati pluviometrici storici, offrendo la possibilità di muoversi
+            tra decenni
+            di misurazioni per osservare come la pioggia ha segnato il tempo.
+            Un punto di partenza per analisi, confronti e riflessioni sui cambiamenti del clima nel corso del tempo.
+          </div>
+
+          <div class="w-full mt-15 mb-5">
+            <div style="font-family: 'Oswald', sans-serif" class="flex w-full justify-between items-end gap-10">
+              <div class="flex  gap-4 flex-col justify-center items-center">
+                <img class="h-20 -mb-4" src="https://github.com/inteasrl/datascan/assets/document-9lGRJ10b.svg" alt="">
+                <p>CONSULTA I DATI</p>
+              </div>
+
+              <div class="flex  gap-1 flex-col justify-center items-center">
+                <img class="h-20 -mb-1" src="data:image/svg+xml,%3csvg%20width='707'%20height='911'%20viewBox='0%200%20707%20911'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cg%20filter='url(%23filter0_d_27_96)'%3e%3cpath%20d='M625%20838H30V247H228V282H65V803H590V282H427V247H625V838Z'%20fill='%231266CD'/%3e%3cpath%20d='M333%2039V521.5M333%20521.5L187%20394M333%20521.5L477%20394'%20stroke='%231266CD'%20stroke-opacity='0.22'%20stroke-width='29'/%3e%3c/g%3e%3cpath%20d='M126%20743.5H535M126%20678.5H535'%20stroke='%231266CD'%20stroke-opacity='0.6'%20stroke-width='28'/%3e%3cdefs%3e%3cfilter%20id='filter0_d_27_96'%20x='0'%20y='0'%20width='707'%20height='911'%20filterUnits='userSpaceOnUse'%20color-interpolation-filters='sRGB'%3e%3cfeFlood%20flood-opacity='0'%20result='BackgroundImageFix'/%3e%3cfeColorMatrix%20in='SourceAlpha'%20type='matrix'%20values='0%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%20127%200'%20result='hardAlpha'/%3e%3cfeOffset%20dx='26'%20dy='17'/%3e%3cfeGaussianBlur%20stdDeviation='28'/%3e%3cfeComposite%20in2='hardAlpha'%20operator='out'/%3e%3cfeColorMatrix%20type='matrix'%20values='0%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200.25%200'/%3e%3cfeBlend%20mode='normal'%20in2='BackgroundImageFix'%20result='effect1_dropShadow_27_96'/%3e%3cfeBlend%20mode='normal'%20in='SourceGraphic'%20in2='effect1_dropShadow_27_96'%20result='shape'/%3e%3c/filter%3e%3c/defs%3e%3c/svg%3e" alt="">
+                <p>SSCARICA I DATI</p>
+              </div>
+
+              <div class="flex  flex-col justify-center items-center">
+                <img class="w-32" src="data:image/svg+xml,%3csvg%20width='1071'%20height='455'%20viewBox='0%200%201071%20455'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cg%20filter='url(%23filter0_d_27_98)'%3e%3crect%20x='39'%20y='30'%20width='953'%20height='337'%20stroke='%231266CD'%20stroke-width='28'%20shape-rendering='crispEdges'/%3e%3c/g%3e%3cpath%20d='M220%2087V309M86%20119H179.056M86%20199H179.056M86%20272.5H179.056'%20stroke='%231266CD'%20stroke-opacity='0.6'%20stroke-width='28'/%3e%3cpath%20d='M317%2070.5V326M466.5%2070.5V326M763%2070.5V326M621%2070.5V326M907%2070.5V326'%20stroke='%231266CD'%20stroke-opacity='0.14'%20stroke-width='28'/%3e%3cpath%20d='M278.5%20113.5L399.5%20268L523.5%20137.5L693.5%20245.5L910%20137.5'%20stroke='%231266CD'%20stroke-opacity='0.54'%20stroke-width='28'/%3e%3cdefs%3e%3cfilter%20id='filter0_d_27_98'%20x='0'%20y='0'%20width='1071'%20height='455'%20filterUnits='userSpaceOnUse'%20color-interpolation-filters='sRGB'%3e%3cfeFlood%20flood-opacity='0'%20result='BackgroundImageFix'/%3e%3cfeColorMatrix%20in='SourceAlpha'%20type='matrix'%20values='0%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%20127%200'%20result='hardAlpha'/%3e%3cfeOffset%20dx='20'%20dy='29'/%3e%3cfeGaussianBlur%20stdDeviation='22.5'/%3e%3cfeComposite%20in2='hardAlpha'%20operator='out'/%3e%3cfeColorMatrix%20type='matrix'%20values='0%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200.25%200'/%3e%3cfeBlend%20mode='normal'%20in2='BackgroundImageFix'%20result='effect1_dropShadow_27_98'/%3e%3cfeBlend%20mode='normal'%20in='SourceGraphic'%20in2='effect1_dropShadow_27_98'%20result='shape'/%3e%3c/filter%3e%3c/defs%3e%3c/svg%3e" alt="">
+                <p>CONSULTA LE FONTI</p>
+              </div>
+
+              <div class="flex  gap-2 flex-col justify-center items-center ">
+                <img class="h-20" src="https://github.com/inteasrl/datascan/assets/stats-DuewrH15.svg" alt="">
+                <p>STATISTICHE</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <footer class="h-52 w-full bg-blue-900 mt-10">
+    ciao
+  </footer>
+
+
+
+</body>
+
+</html>
