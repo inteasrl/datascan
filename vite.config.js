@@ -4,10 +4,10 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   plugins: [tailwindcss()],
-  base: 'https://github.com/inteasrl/datascan',
+  base: '/datascan/',
    build: {
     rollupOptions: {
-      input: {
+      input: { 
         main: 'index.html',
         dati:'dati.html',
       }
