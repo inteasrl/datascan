@@ -50,6 +50,7 @@ if (window.matchMedia("(min-width:1080px)").matches) {
 }
 
 let tabel = null;
+let tabelStat = null;
 
 export let cal = flatpickr("#datePicker", {
   inline: true,
@@ -58,9 +59,12 @@ export let cal = flatpickr("#datePicker", {
   onChange: function (selectedDates, dateStr, instance) {
     console.log("ciaoo" + dateStr)
     if (selectedDates.length >= 2) {
+      
       let query = ("DataOra BETWEEN '" + dateStr.substring(0, 10) + "' AND '" + dateStr.substring(14, 25) + "'")
+      let queryStat = ("Data > '" + dateStr.substring(0, 10) + "'")
       console.log(query)
       graph.graficocumulata(cumul, tabel, query)
+      graph.matrix(tabelStat, coommits, queryStat)
       if(service.differenzaMinoreDiQuattroGiorni(new Date(dateStr.substring(0,10)), new Date(dateStr.substring(dateStr.length - 10,dateStr.length)))){
         graph.graficoietogrammaPreciso(iet, tabel, query)
       } else {
@@ -69,6 +73,7 @@ export let cal = flatpickr("#datePicker", {
       
       if (query == null) {
         tabella(tabel, "1=1")
+        
       } else {
         tabella(tabel, query)
       }
@@ -111,14 +116,14 @@ view.when(() => {
     console.log(dati);
   });
 
-  const tabelStat = webmap.tables.find(t => t.title === "VePDBo_Stat")
+  
   if (layer) {
     layer.popupEnabled = false;
 
     view.on("click", async (event) => {
       const response = await view.hitTest(event);
       const result = response.results.find(r => r.graphic?.layer === layer);
-
+      
       if (result) {
         const clickedGraphic = result.graphic;
 
@@ -149,6 +154,7 @@ view.when(() => {
 
           console.log(fullFeature.attributes["ID_Centralina"])
           tabel = webmap.tables.find(t => t.title === fullFeature.attributes["ID_Centralina"])
+          tabelStat = webmap.tables.find(t => t.title === fullFeature.attributes["ID_Centralina"]+ "_Stat")
           console.log(tabel)
 
           Array.from(appearOC).forEach(f => {
@@ -178,7 +184,7 @@ view.when(() => {
           setMinDateFromAPI();
           graph.graficocumulata(cumul, tabel, "1=1")
           graph.graficoietogramma(iet, tabel, "1=1")
-          graph.matrix(tabelStat, coommits);
+          graph.matrix(tabelStat, coommits, "1=1");
           let urltuttidati = 'https://www.datascan.it/DatiCentraline/' + fullFeature.attributes["ID_Centralina"] + '.txt'
           document.getElementById('tuttiDati').addEventListener('click', function() {
             window.open(urltuttidati, '_blank');

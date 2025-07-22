@@ -471,23 +471,51 @@ const shadowPlugin = {
 };
 
 
-export function matrix(tabel, ctx) {
+export function matrix(tabel, ctx, query) {
+   
     let dati = []
+    const existingChart = Chart.getChart("matrix");
+   
+    if (existingChart) {
+        tabel.queryFeatures({
+            where: query,
+            outFields: ["*"],
+            returnGeometry: false,
+            num: 365
+        }).then(result => {
+            let datiTabella = result.features.map(f => ({ ...f.attributes }));
+            datiTabella.forEach(element => {
+            let dt = new Date(element.Data)
+            let iso = dt.toISOString().substring(0, 10);
+                dati.push({
+                    x: iso,
+                    y: isoDayOfWeek(dt),
+                    d: iso,
+                    v: ((element.Ore_Presenti/24) * 100)
+                });
+            });
+            existingChart.data.datasets[0].data = dati;
+            existingChart.update();
+        });
+        return;
+    }
+
     tabel.queryFeatures({
-        where: "Data BETWEEN '1941-01-01' AND '1941-12-31'",
+        where: query,
         outFields: ["*"],
-        returnGeometry: false
+        returnGeometry: false,
+        num: 365
     }).then(result => {
        
         let datiTabella = result.features.map(f => ({ ...f.attributes }));
         datiTabella.forEach(element => {
             let dt = new Date(element.Data)
-            let iso = dt.toISOString().substr(0, 10);
+            let iso = dt.toISOString().substring(0, 10);
             dati.push({
                 x: iso,
                 y: isoDayOfWeek(dt),
                 d: iso,
-                v:  ((element.Ore_Presenti/24) * 100)
+                v: ((element.Ore_Presenti/24) * 100)
             });
         });
         console.log(dati)
