@@ -1,6 +1,5 @@
 import '../style.css'
 import "@arcgis/map-components/components/arcgis-map";
-
 import "@arcgis/map-components/components/arcgis-zoom";
 import { Chart } from 'chart.js/auto';
 import "flatpickr/dist/flatpickr.min.css";
@@ -8,8 +7,14 @@ import { TabulatorFull as Tabulator } from 'tabulator-tables';
 import 'tabulator-tables/dist/css/tabulator.min.css';
 import 'chartjs-adapter-date-fns';
 import * as service from "./services.js"
+import * as helpers  from 'chart.js/helpers';
+export { _adapters } from 'chart.js'
+import { MatrixController, MatrixElement } from 'chartjs-chart-matrix';
+Chart.register(MatrixController, MatrixElement);
 
 export let datas = [];
+
+let datistat = []
 
 export function grafico(dati, ctx) {
 
@@ -305,9 +310,149 @@ export function graficoietogrammaPreciso(graf, tabel, where) {
             
         });
     });
+
+
+    
 }
 
 
+function internalmatrix (ctx, dati) {
+   
+
+    const scales = {
+  y: {
+    type: 'time',
+    offset: true,
+    time: {
+      unit: 'day',
+      round: 'day',
+      isoWeekday: 1,
+      parser: 'i',
+      displayFormats: {
+        day: 'iiiiii'
+      }
+    },
+    reverse: true,
+    position: 'right',
+    ticks: {
+      maxRotation: 0,
+      autoSkip: true,
+      padding: 1,
+      font: {
+        size: 9
+      }
+    },
+    grid: {
+      display: false,
+      drawBorder: false,
+      tickLength: 0
+    }
+  },
+  x: {
+    type: 'time',
+    position: 'bottom',
+    offset: true,
+    time: {
+      unit: 'week',
+      round: 'week',
+      isoWeekday: 1,
+      displayFormats: {
+        week: 'MMM dd'
+      }
+    },
+    ticks: {
+      maxRotation: 0,
+      autoSkip: true,
+      font: {
+        size: 9
+      }
+    },
+    grid: {
+      display: false,
+      drawBorder: false,
+      tickLength: 0,
+    }
+  }
+};
+
+const data = {
+  datasets: [{
+    label: 'My Matrix',
+    data:  dati,
+    backgroundColor(c) {
+      const value = c.dataset.data[c.dataIndex].v;
+      
+      return getColorFromValue(value);
+    },
+    borderColor(c) {
+      
+      return '#ffffff';
+    },
+    borderWidth: 1.5,
+
+    hoverBorderColor: 'yellowgreen',
+    width(c) {
+      const a = c.chart.chartArea || {};
+      return (a.right - a.left) / 53 - 1;
+    },
+    height(c) {
+      const a = c.chart.chartArea || {};
+      return (a.bottom - a.top) / 7 - 1;
+    }
+  }]
+};
+
+function getColorFromValue(value) {
+  const v = Math.min(Math.max(value, 0), 100) / 100;
+
+  // Funzione easing (quadratica morbida)
+  const easeInOutQuad = (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+  const t = easeInOutQuad(v);
+
+  const endColor = { r: 18, g: 102, b: 205 }; // #1266CD
+  const startColor = { r: 220, g: 235, b: 255 }; // azzurro chiaro
+
+  const r = Math.round(startColor.r + (endColor.r - startColor.r) * t);
+  const g = Math.round(startColor.g + (endColor.g - startColor.g) * t);
+  const b = Math.round(startColor.b + (endColor.b - startColor.b) * t);
+
+  const toHex = (x) => x.toString(16).padStart(2, '0');
+
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+
+const options = {
+  aspectRatio: 6,
+  plugins: {
+    legend: false,
+    tooltip: {
+      displayColors: false,
+      callbacks: {
+        title() {
+          return '';
+        },
+        label(context) {
+          const v = context.dataset.data[context.dataIndex];
+          return ['d: ' + v.d, 'v: ' + v.v.toFixed(2)];
+        }
+      }
+    },
+  },
+  scales: scales,
+  layout: {
+    padding: {
+      top: 10
+    }
+  }
+};
+
+new Chart(ctx, {
+      type: 'matrix',
+      data: data,
+      options: options,
+      scales: scales,
+    });
+}
 
 
 const shadowPlugin = {
@@ -324,3 +469,77 @@ const shadowPlugin = {
         chart.ctx.restore();
     }
 };
+
+
+export function matrix(tabel, ctx) {
+    let dati = []
+    tabel.queryFeatures({
+        where: "Data BETWEEN '1941-01-01' AND '1941-12-31'",
+        outFields: ["*"],
+        returnGeometry: false
+    }).then(result => {
+       
+        let datiTabella = result.features.map(f => ({ ...f.attributes }));
+        datiTabella.forEach(element => {
+            let dt = new Date(element.Data)
+            let iso = dt.toISOString().substr(0, 10);
+            dati.push({
+                x: iso,
+                y: isoDayOfWeek(dt),
+                d: iso,
+                v:  ((element.Ore_Presenti/24) * 100)
+            });
+        });
+        console.log(dati)
+        internalmatrix(ctx,dati)
+    })
+    
+}
+
+var _seed = Date.now()
+
+export function srand(seed) {
+  _seed = seed
+}
+
+export function rand(min, max) {
+  min = valueOrDefault(min, 0)
+  max = valueOrDefault(max, 0)
+  _seed = (_seed * 9301 + 49297) % 233280
+  return min + (_seed / 233280) * (max - min)
+}
+
+export function numbers(config) {
+  var cfg = config || {}
+  var min = valueOrDefault(cfg.min, 0)
+  var max = valueOrDefault(cfg.max, 100)
+  var from = valueOrDefault(cfg.from, [])
+  var count = valueOrDefault(cfg.count, 8)
+  var decimals = valueOrDefault(cfg.decimals, 8)
+  var continuity = valueOrDefault(cfg.continuity, 1)
+  var dfactor = Math.pow(10, decimals) || 0
+  var data = []
+  var i, value
+
+  for (i = 0; i < count; ++i) {
+    value = (from[i] || 0) + this.rand(min, max)
+    if (this.rand() <= continuity) {
+      data.push(Math.round(dfactor * value) / dfactor)
+    } else {
+      data.push(null)
+    }
+  }
+
+  return data
+}
+
+export function isoDayOfWeek(dt) {
+  let wd = dt.getDay() // 0..6, from sunday
+  wd = ((wd + 6) % 7) + 1 // 1..7 from monday
+  return '' + wd // string so it gets parsed
+}
+
+export function startOfToday() {
+  const d = new Date()
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0, 0)
+}

@@ -214,7 +214,7 @@
   </div>
 
   <div id="statdiv"
-    class="appearOC  w-screen lg:w-[1180px] lg:px-0 px-10 h-12 mt-10 p-10 text-lg flex gap-10 justify-between items-center bg-slate-200 shadow-2xl lg:px-10"
+    class="appearOC  w-screen lg:w-[1180px] lg:px-0 px-10 h-12 mt-10 p-10 text-lg flex gap-10 justify-between items-center bg-slate-200 shadow-md lg:px-10"
     style="font-family: oswald, sans-serif; display: none;">
     <div class="flex gap-2">
       <p style="font-family: oswald, sans-serif;" class="">Media: </p>
@@ -235,12 +235,17 @@
 
     <div class="gap-10 flex">
       <a id="tuttiDati"><button 
-        class=" px-4 h-12 shadow-xl hover:scale-105 transform transition-all cursor-pointer bg-instblue text-white">Scarica
+        class=" px-4 h-12 shadow-md hover:scale-105 transform transition-all cursor-pointer bg-instblue text-white">Scarica
         tutti i
         dati Centralina</button></a>
     </div>
-
   </div>
+
+ <div class="w-[1180px] p-5 border-1 border-gray-200 mt-10">
+   <canvas
+   class="appearOC  lg:w-[500px] lg:px-0 px-10 h-12  text-lg flex gap-10 justify-between items-center  "
+   id="matrix" ></canvas>
+ </div>
 </body>
 
 </html>

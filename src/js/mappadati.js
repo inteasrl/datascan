@@ -9,6 +9,7 @@ import { Italian } from "flatpickr/dist/l10n/it.js";
 import { TabulatorFull as Tabulator } from 'tabulator-tables';
 import 'tabulator-tables/dist/css/tabulator.min.css';
 import 'chartjs-adapter-date-fns';
+import { MatrixController, MatrixElement } from 'chartjs-chart-matrix';
 
 import * as graph from "./graphfunctions.js"
 import * as service from "./services.js"
@@ -27,6 +28,11 @@ const statdiv = document.getElementById("statdiv")
 
 const appearOC = document.getElementsByClassName("appearOC")
 const tuttiDati = document.getElementsByClassName("tuttiDati")
+
+
+const coommits = document.getElementById('matrix').getContext('2d');
+
+
 
 let datas = []
 
@@ -105,7 +111,7 @@ view.when(() => {
     console.log(dati);
   });
 
-
+  const tabelStat = webmap.tables.find(t => t.title === "VePDBo_Stat")
   if (layer) {
     layer.popupEnabled = false;
 
@@ -172,7 +178,7 @@ view.when(() => {
           setMinDateFromAPI();
           graph.graficocumulata(cumul, tabel, "1=1")
           graph.graficoietogramma(iet, tabel, "1=1")
-          
+          graph.matrix(tabelStat, coommits);
           let urltuttidati = 'https://www.datascan.it/DatiCentraline/' + fullFeature.attributes["ID_Centralina"] + '.txt'
           document.getElementById('tuttiDati').addEventListener('click', function() {
             window.open(urltuttidati, '_blank');
@@ -279,3 +285,6 @@ function initdate(table) {
     })
 }
 
+function matrix () {
+  Chart.register(MatrixController, MatrixElement);
+}
