@@ -93,14 +93,10 @@ const view = new MapView({
   container: "viewDiv",
   map: webmap,
   
-   constraints: {
-      minZoom: 4,         // livello fisso
-      maxZoom: 4
-  }
+  
 });
 
-view.ui.remove("zoom");
-view.on("drag", (event) => event.stopPropagation());
+
 
 
 
