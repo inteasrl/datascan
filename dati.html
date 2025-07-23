@@ -125,6 +125,7 @@
   </navbar>
 
   <div
+  
     class=" flex flex-col lg:flex-row justify-center mt-10 bg-slate-200 lg:w-fit w-screen mb-10 shadow-md relative h-[1000px] lg:h-[500px] mx-10">
     <div style="  outline: none;" id="viewDivcont" class=" h-[500px] lg:w-[600px] ">
       <div style="width: 185%;" id="viewDiv" class=" w-[185%] shadow-[5px_0_8px_-4px_rgba(0,0,0,0.25)]"></div>
@@ -147,7 +148,7 @@
         </div>
 
         <div class="flex gap-3">
-          <h2 id="info" class="font-black text-slate-600">Totale Cartelini Elaborati*: </h2>
+          <h2 id="info" class="font-black text-slate-600">Totale Cartelini: </h2>
           <h2 id="numero"></h2>
         </div>
 
@@ -183,25 +184,34 @@
     </div>
   </div>
 
-  <div style="display: none;" class="h appearOC lg:w-[1180px] w-full p-5 lg:mx-0  border-gray-200 mb-10">
-   <canvas
-   class="appearOC w-full p-5 h-52  border-1 text-lg flex gap-10 justify-between items-center border-gray-200 mb-10"
-   id="matrix" ></canvas>
- </div>
+  
 
-  <div style="display: none;" class="appearOC w-screen px-10 lg:w-[1180px] lg:px-0 flex justify-between">
+  <div style="display: none;" class="appearOC w-screen px-10 lg:w-[1180px] lg:px-0 flex justify-between mb-2">
     <p>Seleziona range</p>
     <p>Dati Raw Cartellini</p>
   </div>
   <div id="tablediv" style="display: none;"
-    class="appearOC flex justify-between w-screen lg:p-0 px-10 lg:w-[1180px] gap-10 flex-col lg:flex-row relative">
-    <div id="datediv" class="absolute right-20 -top-190 lg:left-0 lg:top-0 lg:relative">
+    class="appearOC flex justify-between w-screen lg:p-0 px-10 lg:w-[1180px] gap-10 flex-col lg:flex-row relative  mb-10">
+    <div id="datediv" class="absolute right-20 -top-120 lg:left-0 lg:top-0 lg:relative">
       <input class="rounded-0" style="display: none;" id="datePicker" type="text" />
     </div>
     <div class="w-full" id="example-table"></div>
   </div>
 
-  <div style="display: none;" class="appearOC w-screen px-10 lg:w-[1180px] lg:px-0 flex justify-between mt-10 mb-2">
+  <div style="display: none;" class="appearOC w-screen px-10 lg:w-[1180px] lg:px-0 flex justify-between mb-2">
+    <p>Disponibilità dati</p>
+    
+  </div>
+
+  <div class="w-screen px-10 lg:px-0 lg:w-[1180px] lg:mx-0 mb-10">
+    <div style="display: none; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);" class="appearOC  w-full p-6 border-1 border-gray-200">
+    <canvas
+      class="appearOC h-52   text-lg flex gap-10 justify-between items-center  border-gray-200 "
+      id="matrix" ></canvas>
+    </div>
+  </div>
+
+  <div style="display: none;" class="appearOC w-screen px-10 lg:w-[1180px] lg:px-0 flex justify-between mb-2">
     <p>Ietogramma</p>
     <p>Cumulata</p>
   </div>
@@ -210,7 +220,7 @@
     class="appearOC flex gap-5 lg:w-[1180px] w-screen flex-col lg:flex-row lg:px-0 px-10">
 
     <div class="  shadow-lg border-1 border-gray-200  bg-white">
-      <canvas class="h-72 p-2 pr-5" id="ietogramma"></canvas>
+      <canvas class="lg:h-72 h-12 p-2 pr-5" id="ietogramma"></canvas>
     </div>
 
     <div class="w-full  shadow-lg border-1 border-gray-200  bg-white">
@@ -220,7 +230,7 @@
   </div>
 
   <div id="statdiv"
-    class="appearOC  w-screen lg:w-[1180px] lg:px-0 px-10 h-12 mt-10 p-10 text-lg flex gap-10 justify-between items-center bg-slate-200 shadow-md lg:px-10"
+    class="appearOC  w-screen lg:w-[1180px]  px-10 h-12 mt-10 p-10 text-lg flex gap-10 justify-between items-center bg-slate-200 shadow-md px-10"
     style="font-family: oswald, sans-serif; display: none;">
     <div class="flex gap-2">
       <p style="font-family: oswald, sans-serif;" class="">Media: </p>
