@@ -27,11 +27,23 @@ const tabdiv = document.getElementById("graphdiv")
 const statdiv = document.getElementById("statdiv")
 
 const appearOC = document.getElementsByClassName("appearOC")
+const info = document.getElementsByClassName("info") 
+const range = document.getElementsByClassName("range") 
+
 const tuttiDati = document.getElementsByClassName("tuttiDati")
 
 
 const coommits = document.getElementById('matrix').getContext('2d');
 
+Array.from(info).forEach(f => {
+  f.addEventListener('mouseenter', function () {
+    f.nextElementSibling.style.display = "flex";
+  })
+
+  f.addEventListener('mouseleave', () => {
+       f.nextElementSibling.style.display = "none";
+  });
+})
 
 
 let datas = []
@@ -57,9 +69,12 @@ export let cal = flatpickr("#datePicker", {
   mode: "range",
   locale: Italian,
   onChange: function (selectedDates, dateStr, instance) {
+   
     console.log("ciaoo" + dateStr)
     if (selectedDates.length >= 2) {
-      
+      Array.from(range).forEach(f => {
+        f.innerHTML= "Range:" + dateStr
+      })
       let query = ("DataOra BETWEEN '" + dateStr.substring(0, 10) + "' AND '" + dateStr.substring(14, 25) + "'")
       let queryStat = ("Data > '" + dateStr.substring(0, 10) + "'")
       console.log(query)
@@ -156,11 +171,14 @@ view.when(() => {
           Array.from(appearOC).forEach(f => {
             if (f.style.visibility === "hidden") {
               f.style.visibility = "visible";
-            } else {
+            } else if (f.style.display === "none") {
               f.style.display = "flex";
             }
           })
 
+         
+          spanDefault()
+          dispDefault()
           tabella(tabel, "1=1")
           service.calcolaSpan(tabel)
 
@@ -237,6 +255,27 @@ async function setMinDateFromAPI() {
   cal.set("minDate", minDate);
   cal.set("maxDate", maxdate);
   initdate(tabel)
+}
+
+async function spanDefault() {
+  const minDate = await service.getmindate(tabel);
+  const maxdate = await service.getLastOfQuery(tabel)
+  let str = service.formattaData(new Date(minDate)) + " ~ "  +service.formattaData(new Date(maxdate))
+  Array.from(range).forEach(f => {
+
+            f.innerHTML= "Range: " + str
+        })
+}
+
+async function dispDefault() {
+  const minDate = await service.getmindate(tabel);
+  
+  let date = new Date(minDate);
+  date.setFullYear(date.getFullYear() + 1);
+  let str = service.formattaData(new Date(minDate)) + " ~ " + service.formattaData(date);
+
+  document.getElementById("infodisp").innerHTML=  str
+      
 }
 
 const btn = document.getElementById("download");

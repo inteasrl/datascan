@@ -191,6 +191,28 @@ export function getmindate(table) {
     return result
 }
 
+
+export function getLastOfQuery(table) {
+    if (table == null) {
+        return "2025-01-01"
+    }
+    let primorecord
+    let result = table.queryFeatures({
+        where: "1=1",
+        outFields: ["*"],
+        returnGeometry: false,
+    }).then((result) => {
+        if (result.features.length > 0) {
+            primorecord = result.features[1999].attributes;
+            console.log("getLastOfQuery." + formattaDataPerQuery(primorecord.DataOra));
+            return formattaDataPerQuery(primorecord.DataOra)
+        } else {
+            console.log("Nessun record trovato.");
+        }
+    })
+    return result
+}
+
 export function getmaxdate(table) {
     if (table == null) {
         return "2025-01-01"

@@ -155,13 +155,9 @@ export function graficocumulata(graf, tabel, where) {
                 }]
             },
             options: {
-                plugins: {
-                    dragData: {
-                        round: 1,
-                        showTooltip: true,
-                        onDragEnd: (e, datasetIndex, index, value) => {
-                            console.log(`Nuovo valore: ${value}`);
-                        }
+               plugins : {
+                    legend: {
+                        display: false
                     }
                 },
                 parsing: false,
@@ -228,6 +224,9 @@ export function graficoietogramma(graf, tabel, where) {
                 }]
             },
             options: {
+                legend: {
+                display: false // 👈 Rimuove la legenda
+                },
                 parsing: false,
                 scales: {
                     x: {
@@ -241,6 +240,11 @@ export function graficoietogramma(graf, tabel, where) {
                             display: true,
                             text: 'mm/h'
                         }
+                    }
+                },
+                plugins : {
+                    legend: {
+                        display: false
                     }
                 }
             },
@@ -291,6 +295,9 @@ export function graficoietogrammaPreciso(graf, tabel, where) {
                 }]
             },
             options: {
+                legend: {
+                display: false 
+                }  ,
                 parsing: false,
                 scales: {
                     x: {
