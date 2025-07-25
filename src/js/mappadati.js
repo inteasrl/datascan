@@ -263,7 +263,7 @@ async function spanDefault() {
   let str = service.formattaData(new Date(minDate)) + " ~ "  +service.formattaData(new Date(maxdate))
   Array.from(range).forEach(f => {
 
-            f.innerHTML= "Range: " + str
+            f.innerHTML=  str
         })
 }
 
