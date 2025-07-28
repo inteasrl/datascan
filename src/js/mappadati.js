@@ -10,9 +10,12 @@ import { TabulatorFull as Tabulator } from 'tabulator-tables';
 import 'tabulator-tables/dist/css/tabulator.min.css';
 import 'chartjs-adapter-date-fns';
 import { MatrixController, MatrixElement } from 'chartjs-chart-matrix';
+import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
+import Graphic from "@arcgis/core/Graphic";
 
 import * as graph from "./graphfunctions.js"
 import * as service from "./services.js"
+import { data } from 'jquery';
 
 const ctx = document.getElementById('graficoTorta').getContext('2d');
 const cumul = document.getElementById('cumulata').getContext('2d');
@@ -25,6 +28,7 @@ const dat = document.getElementById('datediv')
 const tablediv = document.getElementById("tablediv")
 const tabdiv = document.getElementById("graphdiv")
 const statdiv = document.getElementById("statdiv")
+const infodisp = document.getElementById("infodisp")
 
 const appearOC = document.getElementsByClassName("appearOC")
 const info = document.getElementsByClassName("info") 
@@ -73,8 +77,9 @@ export let cal = flatpickr("#datePicker", {
     console.log("ciaoo" + dateStr)
     if (selectedDates.length >= 2) {
       Array.from(range).forEach(f => {
-        f.innerHTML= "Range:" + dateStr
+        f.innerHTML= dateStr
       })
+      infodisp.innerHTML = dateStr.substring(0,10) + " ~ " + (parseInt(dateStr.substring(0,4)) + 1) + dateStr.substring(4,10)
       let query = ("DataOra BETWEEN '" + dateStr.substring(0, 10) + "' AND '" + dateStr.substring(14, 25) + "'")
       let queryStat = ("Data > '" + dateStr.substring(0, 10) + "'")
       console.log(query)
@@ -111,13 +116,29 @@ const view = new MapView({
   
 });
 
-
+  const highlightSymbol = {
+    type: "simple-marker",
+    style: "circle",
+    color: [255, 255, 255, 0.7],  // bianco trasparente
+    size: "12px",
+    outline: {
+      color: [0, 0, 0, 0.8],
+      width: 1
+    }
+  };
+  const highlightLayer = new GraphicsLayer();
+  highlightLayer.listMode = "show";
+highlightLayer.order = 999; // Lo porta sopra
+ webmap.layers.add(highlightLayer);
 
 
 
 view.when(() => {
   // Trova il layer interessato
   const layer = view.map.layers.find(l => l.title === "Centraline");
+  
+  console.log("Tipo geometria:", layer.geometryType);
+  layer.labelsVisible = false;
   layer.queryFeatures({
     where: "1=1",
     outFields: ["*"],
@@ -130,10 +151,17 @@ view.when(() => {
   
   if (layer) {
     layer.popupEnabled = false;
+    view.on("pointer-move", async (event) => {
+      const response = await view.hitTest(event);
+      const isOverFeature = response.results.some(r => r.graphic?.layer === layer);
+
+      view.container.style.cursor = isOverFeature ? "pointer" : "default";
+    });
 
     view.on("click", async (event) => {
       const response = await view.hitTest(event);
       const result = response.results.find(r => r.graphic?.layer === layer);
+      
       
       if (result) {
         const clickedGraphic = result.graphic;
@@ -143,13 +171,33 @@ view.when(() => {
         const query = layer.createQuery();
         query.objectIds = [objectId];
         query.outFields = ["*"];
-        query.returnGeometry = false;
+        query.returnGeometry = true;
 
         const { features } = await layer.queryFeatures(query);
 
         if (features.length > 0) {
           const fullFeature = features[0];
           console.log("Attributi completi:", fullFeature.attributes);
+          highlightLayer.removeAll();
+          const highlightSymbol = {
+            type: "simple-marker",
+            style: "circle",
+            color: [255, 255, 255, 1],  // Bianco pieno
+            size: "22px",               // Più visibile
+            outline: {
+              color: [77, 148, 232, 1],      // Bordo nero
+              width: 2
+            }
+          };
+        
+        highlightLayer.removeAll(); // pulisce i simboli precedenti
+         if (fullFeature.geometry) {
+            const highlightGraphic = new Graphic({
+            geometry: fullFeature.geometry,
+            symbol: highlightSymbol
+        });
+        highlightLayer.add(highlightGraphic);
+      }
 
           const nomeLabel = document.getElementById("nome")
           nomeLabel.innerHTML = fullFeature.attributes["Nome_Stazione"]
@@ -160,7 +208,11 @@ view.when(() => {
           const cartellini = document.getElementById("numero")
           cartellini.innerHTML = fullFeature.attributes["Cart_Elaborati"]
 
+          const posizione = document.getElementById("posizione")
+          posizione.innerHTML =  fullFeature.attributes["Longitudine"] + "° N " + fullFeature.attributes["Latitudine"] + "°E ~ quota: " +   fullFeature.attributes["Quota"] + "m"
 
+
+          
           graph.grafico([fullFeature.attributes["Attenzionati"], fullFeature.attributes["Malfunzionanti"], fullFeature.attributes["Zero_Pioggia"], fullFeature.attributes["Discordanti"], (fullFeature.attributes["Cart_Elaborati"] - fullFeature.attributes["Attenzionati"] - fullFeature.attributes["Malfunzionanti"] - fullFeature.attributes["Zero_Pioggia"] - fullFeature.attributes["Discordanti"])], ctx)
 
           console.log(fullFeature.attributes["ID_Centralina"])
@@ -277,6 +329,18 @@ async function dispDefault() {
   document.getElementById("infodisp").innerHTML=  str
       
 }
+
+async function dispDefaultCal(datstr) {
+  const datasub = datstr.substring(0,10);
+  const date = new Date(datasub);
+  
+  date.setFullYear(date.getFullYear() + 1);
+  let str = datasub + " ~ " + service.formattaData(date);
+
+  document.getElementById("infodisp").innerHTML=  str
+      
+}
+
 
 const btn = document.getElementById("download");
 

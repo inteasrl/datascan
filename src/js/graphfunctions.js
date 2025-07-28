@@ -440,7 +440,7 @@ const options = {
         },
         label(context) {
           const v = context.dataset.data[context.dataIndex];
-          return ['d: ' + v.d, 'v: ' + v.v.toFixed(2)];
+          return ['Giorno: ' + v.d, ' Ore presenti: ' + v.v.toFixed(2)] + '%';
         }
       }
     },
