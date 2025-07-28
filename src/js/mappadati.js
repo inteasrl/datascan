@@ -275,7 +275,8 @@ function tabella(tabel, where) {
       data: service.formatUnixToDateTime(d.DataOra),
       mm: d.Pioggia_mm,
       qualita: d.Qualita,
-      cartellino: d.Cartellino
+      cartellino_f: d.Cartellino_Fronte,
+      cartellino_r: d.Cartellino_Retro
     }))
 
     console.log(tabellasist);
@@ -288,10 +289,17 @@ function tabella(tabel, where) {
         { title: "mm Pioggia", field: "mm" },
         { title: "Qualita", field: "qualita" },
         {
-          title: "Cartellino",
+          title: "Fronte Cartellino",
           formatter: function (cell, formatterParams) {
             let row = cell.getRow().getData(); // dati di riga
-            return `<a href="https://datascan.it/cartellini/${row.cartellino}.jpg" target="_blank">${row.cartellino}</a>`;
+            return `<a href="https://datascan.it/cartellini/${row.cartellino_f}.jpg" target="_blank">${row.cartellino_f}</a>`;
+          }
+        },
+         {
+          title: "Retro Cartellino",
+          formatter: function (cell, formatterParams) {
+            let row = cell.getRow().getData(); // dati di riga
+            return `<a href="https://datascan.it/cartellini/${row.cartellino_r}.jpg" target="_blank">${row.cartellino_r}</a>`;
           }
         }
       ],
