@@ -17,9 +17,9 @@
       width: 100%;
     }
   </style>
-  <script async type="module" crossorigin src="/datascan/assets/dati-Cpx6sRLW.js"></script>
-  <link rel="modulepreload" crossorigin href="/datascan/assets/style--gkYsyr-.js">
-  <link rel="stylesheet" crossorigin href="/datascan/assets/style-7uc5X-96.css">
+  <script async type="module" crossorigin src="/datascan/assets/dati-GZ-hVOQa.js"></script>
+  <link rel="modulepreload" crossorigin href="/datascan/assets/style-CHe7JP_0.js">
+  <link rel="stylesheet" crossorigin href="/datascan/assets/style-BaDspPxz.css">
   <link rel="stylesheet" crossorigin href="/datascan/assets/dati-ulKoba5R.css">
 </head>
 
@@ -160,13 +160,18 @@
         </div>
 
         <div class="flex gap-3">
+          <h2 id="info" class="font-black text-slate-600">Posizione:</h2>
+          <h2 id="posizione"></h2>
+        </div>
+
+        <div class="flex gap-3">
           <h2 id="info" class="font-black text-slate-600">Stato cartellini:</h2>
           <h2 id="span"></h2>
         </div>
 
 
-        <div class="h-72 -mt-12">
-          <canvas class="h-52" id="graficoTorta"></canvas>
+        <div class="h-65 -mt-12">
+          <canvas class="h-32" id="graficoTorta"></canvas>
         </div>
 
 
@@ -188,10 +193,6 @@
 
   
 
-  <div style="display: none;" class="appearOC w-screen px-10 lg:w-[1180px] lg:px-0 flex justify-between mb-2">
-    <p>Seleziona range</p>
-    <p>Dati Raw Cartellini</p>
-  </div>
   <div id="tablediv" style="display: none;"
     class="appearOC flex justify-between w-screen lg:p-0 px-10 lg:w-[1180px] gap-10 flex-col lg:flex-row relative  mb-10">
     <div id="datediv" class="absolute right-20 -top-120 lg:left-0 lg:top-0 lg:relative">
@@ -200,46 +201,16 @@
     <div class="w-full" id="example-table"></div>
   </div>
 
-  <div style="display: none;" class="appearOC w-screen px-10 lg:w-[1180px] lg:px-0 flex justify-between mb-2">
-    <p>Disponibilità dati</p>
-    
-  </div>
-
-  <div class="w-screen px-10 lg:px-0 lg:w-[1180px] lg:mx-0 mb-10">
-    <div style="display: none; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);" class="appearOC  w-full p-6 border-1 border-gray-200">
-    <canvas
-      class="appearOC h-52   text-lg flex gap-10 justify-between items-center  border-gray-200 "
-      id="matrix" ></canvas>
-    </div>
-  </div>
-
-  <div style="display: none;" class="appearOC w-screen px-10 lg:w-[1180px] lg:px-0 flex justify-between mb-2">
-    <p>Ietogramma</p>
-    <p>Cumulata</p>
-  </div>
-
-  <div style="display: none;" id="graphdiv"
-    class="appearOC flex gap-5 lg:w-[1180px] w-screen flex-col lg:flex-row lg:px-0 px-10">
-
-    <div class="  shadow-lg border-1 border-gray-200  bg-white">
-      <canvas class="lg:h-72 h-12 p-2 pr-5" id="ietogramma"></canvas>
-    </div>
-
-    <div class="w-full  shadow-lg border-1 border-gray-200  bg-white">
-      <canvas class="h-72 p-3 pr-5" id="cumulata"></canvas>
-    </div>
-
-  </div>
-
   <div id="statdiv"
-    class="appearOC  w-screen lg:w-[1180px]  px-10 h-12 mt-10 p-10 text-lg flex gap-10 justify-between items-center bg-slate-200 shadow-md px-10"
+    class="appearOC  w-screen lg:w-[1180px]"
     style="font-family: oswald, sans-serif; display: none;">
-    <div class="flex gap-2">
+    <div class="w-full lg:mx-0 mx-10 flex  justify-around py-5 bg-slate-200 items-center mb-10  shadow-md">
+      <div class="flex gap-2 text-xl">
       <p style="font-family: oswald, sans-serif;" class="">Media: </p>
       <p style="font-family: oswald, sans-serif;" class="text-instblue" id="media"></p>
       <p class="text-instblue">mm </p>
     </div>
-    <div class="flex gap-2">
+    <div class="flex gap-2 text-xl">
       <p style="font-family: oswald, sans-serif;" class="">Scarto quadratico medio: </p>
       <p class="text-instblue" id="SQM"></p>
       <p class="text-instblue">mm </p>
@@ -257,9 +228,57 @@
         tutti i
         dati Centralina</button></a>
     </div>
+    </div>
   </div>
 
- 
+  <div class="w-screen px-10 lg:px-0 lg:w-[1180px] lg:mx-0 ">
+     
+    <div style="display: none; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);" class="flex flex-col appearOC justify-baseline w-full p-6 border-1 border-gray-200">
+        <div class="flex gap-5 ml-2 items-center text-gray-700 relative">
+          <p class="text-2xl" style="font-family: 'Oswald', sans-serif;">DISPONIBILITA'  DATI</p>
+          <p id="infodisp"></p>
+          <svg class="cursor-pointer info" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
+          <path d="M25,2C12.297,2,2,12.297,2,25s10.297,23,23,23s23-10.297,23-23S37.703,2,25,2z M25,11c1.657,0,3,1.343,3,3s-1.343,3-3,3 s-3-1.343-3-3S23.343,11,25,11z M29,38h-2h-4h-2v-2h2V23h-2v-2h2h4v2v13h2V38z"></path>
+          </svg>
+          <div style="display: none;" class="appearOH absolute left-[450px] border-1 border-slate-300 shadow-2xl h-30 w-100 bg-amber-50 p-5 text-xs  justify-center items-center">
+            <p class="text-justify">Alcuni giorni mancano di dati orari perché i relativi cartellini risultano illegibili o danneggiati. Il grafico riporta la distribuzione di disponibilità giornaliera dei dati nell'anno successivo alla prima data selezionata: tonalità piu chiare indicano concentrazioni di dati minori</p>
+          </div>
+        </div>
+        
+      <canvas
+      class="appearOC lg:h-52 text-lg flex gap-10 justify-between items-center  border-gray-200 "
+      id="matrix" ></canvas>
+    </div>
+  </div>
+
+  
+
+  <div style="display: none;" id="graphdiv"
+    class="appearOC flex gap-5 lg:w-[1180px] w-screen flex-col lg:flex-row lg:p-0 p-10 lg:mt-10">
+
+    <div class=" shadow-lg border-1 border-gray-200  bg-white p-10 lg:h-[380px]">
+      <div class="flex items-center text-slate-700 gap-5 mb-5">
+        <p class="text-2xl" style="font-family: 'Oswald', sans-serif;">IETOGRAMMA</p>
+        <p class="range"></p>
+      </div>
+      <canvas class="lg:w-[500px] h-full -ml-5" id="ietogramma"></canvas>
+    </div>
+
+    <div class="relative shadow-lg border-1 w-full border-gray-200  bg-white p-10 lg:h-[380px]">
+       <div class="flex items-center text-slate-700 gap-5 mb-5">
+        <p class="text-2xl" style="font-family: 'Oswald', sans-serif;">CUMULATA</p>
+        <p class="range"></p>
+        <svg class="cursor-pointer info" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
+          <path d="M25,2C12.297,2,2,12.297,2,25s10.297,23,23,23s23-10.297,23-23S37.703,2,25,2z M25,11c1.657,0,3,1.343,3,3s-1.343,3-3,3 s-3-1.343-3-3S23.343,11,25,11z M29,38h-2h-4h-2v-2h2V23h-2v-2h2h4v2v13h2V38z"></path>
+          </svg>
+        <div style="display: none;" class="appearOH absolute left-[400px] border-1 border-slate-300 shadow-2xl h-22 w-100 bg-amber-50 p-5 text-xs  justify-center items-center">
+          <p class="text-justify">Il grafico risulta discontinuo in corrispondenza dei periodi in cui i dati sono mancanti, per maggiori informazioni fare riferimento al grafico di disponibilità dati.</p>
+        </div>
+      </div>
+      <canvas class="lg:w-[500px]  -ml-5" id="cumulata"></canvas>
+    </div>
+
+  </div>
 </body>
 
 </html>
