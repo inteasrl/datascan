@@ -209,7 +209,7 @@ view.when(() => {
           cartellini.innerHTML = fullFeature.attributes["Cart_Elaborati"]
 
           const posizione = document.getElementById("posizione")
-          posizione.innerHTML =  fullFeature.attributes["Longitudine"] + "° N " + fullFeature.attributes["Latitudine"] + "°E ~ quota: " +   fullFeature.attributes["Quota"] + "m"
+          posizione.innerHTML =  fullFeature.attributes["Longitudine"] + "° N " + fullFeature.attributes["Latitudine"] + "°E ~ qslm: " +   fullFeature.attributes["Quota"] + "m"
 
 
           
@@ -292,14 +292,37 @@ function tabella(tabel, where) {
           title: "Fronte Cartellino",
           formatter: function (cell, formatterParams) {
             let row = cell.getRow().getData(); // dati di riga
-            return `<a href="https://datascan.it/cartellini/${row.cartellino_f}.jpg" target="_blank">${row.cartellino_f}</a>`;
+            const el = cell.getElement();
+
+            el.style.backgroundColor = "";
+            el.style.color = "";
+            if (row.cartellino_r && row.cartellino_f !== "Non disponibile") {
+              el.style.color = "#1266CD";
+               el.style.textDecoration = "underline";
+              return `<a href="https://datascan.it/cartellini/${row.cartellino_f}.jpg" target="_blank">${row.cartellino_f}</a>`;
+            } else {
+              return row.cartellino_f || ""; 
+            }
+            
           }
         },
-         {
+        {
           title: "Retro Cartellino",
           formatter: function (cell, formatterParams) {
-            let row = cell.getRow().getData(); // dati di riga
+          let row = cell.getRow().getData();
+          const el = cell.getElement();
+
+          el.style.backgroundColor = "";
+          el.style.color = "";
+
+          if (row.cartellino_r && row.cartellino_r !== "Non disponibile") {
+            el.style.textDecoration = "underline";
+            el.style.color = "#1266CD";
             return `<a href="https://datascan.it/cartellini/${row.cartellino_r}.jpg" target="_blank">${row.cartellino_r}</a>`;
+          } else {
+              
+            return row.cartellino_r || ""; 
+          }
           }
         }
       ],
@@ -308,6 +331,8 @@ function tabella(tabel, where) {
     });
   });
 }
+
+
 
 async function setMinDateFromAPI() {
   const minDate = await service.getmindate(tabel);

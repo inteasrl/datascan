@@ -37,16 +37,13 @@ for (let i = 0; i < profs.length; i++) {
 function descrizione (caso ) {
     switch (caso){
         case 0:
-            presentazione.innerHTML = "1 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, rem. Et non repellat ad eum numquam corporis nemo. Sit atque nostrum quos ullam vitae ipsa reprehenderit, voluptatem quibusdam eos Lorem ipsum dolor sit amet consectetur adipisicing elit. Error laudantium obcaecati tempora cupiditate deserunt, reprehenderit enim repellendus explicabo"
+            presentazione.innerHTML = "Acquisizione, scansione e digitalizzazione dei cartellini pluviometrici con sviluppo di un software per l’estrazione automatica delle curve di pioggia e validazione tramite interfaccia grafica. Obiettivo: ottenere un dataset digitale sub-giornaliero delle precipitazioni storiche."
         break
         case 1:
-             presentazione.innerHTML = "2 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, rem. Et non repellat ad eum numquam corporis nemo. Sit atque nostrum quos ullam vitae ipsa reprehenderit, voluptatem quibusdam eos Lorem ipsum dolor sit amet consectetur adipisicing elit. Error laudantium obcaecati tempora cupiditate deserunt, reprehenderit enim repellendus explicabo"
+             presentazione.innerHTML = "Estrazione dei dati di temperatura e livello idrometrico dagli Annali ISPRA tramite tecniche OCR e verifica manuale. I dati saranno convertiti in formato digitale sub-giornaliero, con controlli incrociati su medie e portate per garantire accuratezza e coerenza con le fonti ufficiali."
         break
         case 2:
-             presentazione.innerHTML = "3 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, rem. Et non repellat ad eum numquam corporis nemo. Sit atque nostrum quos ullam vitae ipsa reprehenderit, voluptatem quibusdam eos Lorem ipsum dolor sit amet consectetur adipisicing elit. Error laudantium obcaecati tempora cupiditate deserunt, reprehenderit enim repellendus explicabo"
-        break
-        case 3:
-             presentazione.innerHTML = "4 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, rem. Et non repellat ad eum numquam corporis nemo. Sit atque nostrum quos ullam vitae ipsa reprehenderit, voluptatem quibusdam eos Lorem ipsum dolor sit amet consectetur adipisicing elit. Error laudantium obcaecati tempora cupiditate deserunt, reprehenderit enim repellendus explicabo"
+             presentazione.innerHTML = "Applicazione di metodi statistici per lo studio delle caratteristiche temporali e distribuzionali dei dati digitalizzati di pioggia, temperatura e livello idrometrico. L’obiettivo è sviluppare una piattaforma analitica per esplorare correlazioni, tendenze e qualità informativa dei dati ricostruiti."
         break
     }
 }
