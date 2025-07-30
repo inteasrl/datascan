@@ -1,6 +1,6 @@
 var amount = document.getElementById('count');
 const presentazione = document.getElementById('presentazione')
-
+const lifin = document.getElementsByClassName('fin');
 let profs = document.getElementsByClassName('prof')
 var current = 0;
 
@@ -10,6 +10,17 @@ function update() {
     amount.innerText = current.toLocaleString("en-US");
 }
 
+Array.from(lifin).forEach(f =>{
+
+    f.addEventListener("click", () => {
+
+        Array.from(lifin).forEach(d =>{
+            d.classList.remove("finLi")
+        })
+
+        f.classList.add("finLi")
+    })
+})
 
 setInterval(function () {
     if (current < 3440000) {
@@ -27,10 +38,11 @@ for (let i = 0; i < profs.length; i++) {
         // Rimuove "selected" da tutti
         for (let j = 0; j < profs.length; j++) {
             profs[j].classList.remove("selected");
-            
+          
         }
         // Aggiunge "selected" solo a quello cliccato
         this.classList.add("selected");
+    
     });
 }
 
