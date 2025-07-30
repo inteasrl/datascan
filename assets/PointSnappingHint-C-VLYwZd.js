@@ -1,1 +1,0 @@
-import{bE as i}from"./dati-GZ-hVOQa.js";import{a as n}from"./hitTestSelectUtils-BSi8eq3o.js";class o extends n{constructor(t,s,r){super(s,r),this.point=t}equals(t){return t instanceof o&&i(this.point,t.point)}}export{o as n};
