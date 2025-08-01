@@ -45,25 +45,16 @@ webmap.load().then(() => {
             return result.features.map(f => ({ ...f.attributes }));
         });
     });
-
-    // Aspetta tutte le query
+s
     Promise.all(tutteLeQuery).then(resultatiQuery => {
-        // Unisci tutto in un unico array
         datiTabella = resultatiQuery.flat();
         const filtered = datiTabella.filter(d => d.DataOra != null);
 
         const datiGrafico = filtered
-            .map(d => ({
-                x: d.DataOra,
-                y: Number(d.Pioggia_mm)
-            }));
-
-
-
-
-
-
-
+        .map(d => ({
+            x: d.DataOra,
+            y: Number(d.Pioggia_mm)
+        }));
     });
 });
 

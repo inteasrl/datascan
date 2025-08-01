@@ -35,9 +35,10 @@ const info = document.getElementsByClassName("info")
 const range = document.getElementsByClassName("range") 
 
 const tuttiDati = document.getElementsByClassName("tuttiDati")
-
+const disapp = document.getElementsByClassName("disappearOC")
 
 const coommits = document.getElementById('matrix').getContext('2d');
+const selmob = document.getElementById("sel2")
 
 Array.from(info).forEach(f => {
   f.addEventListener('mouseenter', function () {
@@ -49,17 +50,19 @@ Array.from(info).forEach(f => {
   });
 })
 
-
+const originalTransition = getComputedStyle(mappa).transition;
 let datas = []
 
 if (window.matchMedia("(min-width:1080px)").matches) {
   mappa.style.width = "185%"
+  
   dat.style.display = "hidden"
-
+  selmob.style.display = "none"
 } else {
   console.log("Siamo sotto sm (base)");
+  mappa.style.transition = "none";
   mappa.style.width = "100%"
-  mappa.style.height = "190%";
+  mappa.style.height = "180%";
   dat.style.display = "none"
   sel.style.display = "none";
   mappa.style.boxShadow = "0px 5px 8px -4px rgba(0, 0, 0, 0.25)"
@@ -159,6 +162,7 @@ view.when(() => {
     });
 
     view.on("click", async (event) => {
+      mappa.style.transition = originalTransition;
       const response = await view.hitTest(event);
       const result = response.results.find(r => r.graphic?.layer === layer);
       
@@ -228,6 +232,13 @@ view.when(() => {
             }
           })
 
+          Array.from(disapp).forEach(f => {
+            if (f.style.visibility === "visible") {
+              f.style.visibility = "hidden";
+            } else if (f.style.display === "flex") {
+              f.style.display = "none";
+            }
+          })
          
           spanDefault()
           dispDefault()

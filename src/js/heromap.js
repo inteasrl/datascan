@@ -24,9 +24,6 @@ require([
 
   });
 
-
-
-
   view.ui.remove("zoom");
   view.ui.remove("OUTLINE");
 

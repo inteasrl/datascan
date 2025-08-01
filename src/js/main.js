@@ -42,9 +42,43 @@ for (let i = 0; i < profs.length; i++) {
         }
         // Aggiunge "selected" solo a quello cliccato
         this.classList.add("selected");
-    
     });
 }
+
+for (let i = 0; i < lifin.length; i++) {
+    lifin[i].addEventListener("click", function () {
+        finalita(i)
+        
+        // Rimuove "selected" da tutti
+        for (let j = 0; j < profs.length; j++) {
+            lifin[j].classList.remove("selected");
+          
+        }
+      
+    });
+}
+
+let findiv = document.getElementById("findiv")
+
+function finalita (caso) {
+       switch (caso){
+        case 0:
+            findiv.innerHTML = "Acquisizione, scansione e digitalizzazione dei cartellini pluviometrici con sviluppo di un software per l’estrazione automatica delle curve di pioggia e validazione tramite interfaccia grafica. Obiettivo: ottenere un dataset digitale sub-giornaliero delle precipitazioni storiche."
+        break
+        case 1:
+             findiv.innerHTML = "Estrazione dei dati di temperatura e livello idrometrico dagli Annali ISPRA tramite tecniche OCR e verifica manuale. I dati saranno convertiti in formato digitale sub-giornaliero, con controlli incrociati su medie e portate per garantire accuratezza e coerenza con le fonti ufficiali."
+        break
+        case 2:
+             findiv.innerHTML = "Applicazione di metodi statistici per lo studio delle caratteristiche temporali e distribuzionali dei dati digitalizzati di pioggia, temperatura e livello idrometrico. L’obiettivo è sviluppare una piattaforma analitica per esplorare correlazioni, tendenze e qualità informativa dei dati ricostruiti."
+        break
+        case 3:
+             findiv.innerHTML = "Applicazione di metodi statistici per lo studio delle caratteristiche temporali e distribuzionali dei dati digitalizzati di pioggia, temperatura e livello idrometrico. L’obiettivo è sviluppare una piattaforma analitica per esplorare correlazioni, tendenze e qualità informativa dei dati ricostruiti."
+        break
+        case 4:
+             findiv.innerHTML = "Applicazione di metodi statistici per lo studio delle caratteristiche temporali e distribuzionali dei dati digitalizzati di pioggia, temperatura e livello idrometrico. L’obiettivo è sviluppare una piattaforma analitica per esplorare correlazioni, tendenze e qualità informativa dei dati ricostruiti."
+        break
+    }
+} 
 
 function descrizione (caso ) {
     switch (caso){
@@ -59,3 +93,4 @@ function descrizione (caso ) {
         break
     }
 }
+
