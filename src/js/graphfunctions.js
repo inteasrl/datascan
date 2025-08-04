@@ -149,7 +149,7 @@ export function graficocumulata(graf, tabel, where) {
                 datasets: [{
                     label: 'Pioggia in mm',
                     data: tabellasist,
-                    backgroundColor: '#1266CD',
+                    backgroundColor: '#5096E6',
                     spanGaps: true,
                     borderWidth: 0
                 }]
@@ -219,7 +219,7 @@ export function graficoietogramma(graf, tabel, where) {
                 datasets: [{
                     label: 'Pioggia in mm',
                     data: service.pergiornoietogramma(datiTabella),
-                    backgroundColor: '#1266CD',
+                    backgroundColor: '#5096E6',
                     borderWidth: 0
                 }]
             },
@@ -290,7 +290,7 @@ export function graficoietogrammaPreciso(graf, tabel, where) {
                 datasets: [{
                     label: 'Pioggia in mm',
                     data: tabellasist,
-                    backgroundColor: '#1266CD',
+                    backgroundColor: '#5096E6',
                     borderWidth: 0
                 }]
             },
@@ -386,6 +386,10 @@ const data = {
   datasets: [{
     label: 'My Matrix',
     data:  dati,
+    shadowOffsetX: 0,            // ✅ niente ombra (se usato)
+    shadowOffsetY: 0,
+    shadowBlur: 0,
+    shadowColor: 'transparent',
     backgroundColor(c) {
       const value = c.dataset.data[c.dataIndex].v;
       
@@ -397,7 +401,7 @@ const data = {
     },
     borderWidth: 1.5,
 
-    hoverBorderColor: 'yellowgreen',
+    hoverBorderColor: 'blue',
     width(c) {
       const a = c.chart.chartArea || {};
       return (a.right - a.left) / 53 - 1;
@@ -416,7 +420,7 @@ function getColorFromValue(value) {
   const easeInOutQuad = (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
   const t = easeInOutQuad(v);
 
-  const endColor = { r: 18, g: 102, b: 205 }; // #1266CD
+  const endColor = { r: 80, g: 150, b: 230 }; // #1266CD
   const startColor = { r: 220, g: 235, b: 255 }; // azzurro chiaro
 
   const r = Math.round(startColor.r + (endColor.r - startColor.r) * t);

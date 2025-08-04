@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --color-instblue: #1266CD
+  --color-instblue: #BB7537;
+  --color-myblue: #1266CD
 }
 
 @font-face {
@@ -10,6 +11,7 @@
   font-weight: normal;
   font-style: normal;
 }
+
 
 .flatpickr-day.selected,
 .flatpickr-day.startRange,
@@ -25,7 +27,7 @@
 .flatpickr-day.endRange:hover {
   border-radius: 0 !important;
   /* rende quadrata la cella */
-
+ background: #ce9158
 }
 
 .flatpickr-day.today {
@@ -35,7 +37,7 @@
 .flatpickr-day.selected:hover,
 .flatpickr-day.startRange,
 .flatpickr-day.endRange {
-  background: #1266CD !important;
+  background: #ce9158 !important;
 }
 
 .flatpickr-weekdays {
@@ -98,7 +100,7 @@
 }
 
 .tabulator .tabulator-header .tabulator-col {
-  background-color: #1266bc !important;
+  background-color: #BB7537 !important;
   color: white !important;
   /* testo bianco per contrasto */
   font-weight: 600;

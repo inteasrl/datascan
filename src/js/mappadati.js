@@ -118,6 +118,10 @@ const view = new MapView({
   
   
 });
+view.popup.highlightEnabled = false;
+view.container.addEventListener('mousedown', function (e) {
+  e.preventDefault(); // Impedisce il focus per rimuovere la outline nera bruttissima
+});
 
   const highlightSymbol = {
     type: "simple-marker",
@@ -189,7 +193,7 @@ view.when(() => {
             color: [255, 255, 255, 1],  // Bianco pieno
             size: "22px",               // Più visibile
             outline: {
-              color: [77, 148, 232, 1],      // Bordo nero
+              color: [216, 145, 80, 1],      // Bordo nero
               width: 2
             }
           };
