@@ -32,11 +32,14 @@ require([
   view.on("drag", (event) => event.stopPropagation());
   view.on("double-click", (event) => event.stopPropagation());
   view.on("double-click", ["Control"], (event) => event.stopPropagation());
+view.container.addEventListener('mousedown', function (e) {
+  e.preventDefault(); // Impedisce il focus per rimuovere la outline nera bruttissima
+});
 
   view.when(function () {
     view.goTo(
       {
-        center: [-7.48, 41.74],
+        center: [-0.48, 41.74],
         zoom: 10
       },
       {
@@ -45,5 +48,4 @@ require([
     );
   });
 })
-
 

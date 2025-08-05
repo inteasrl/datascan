@@ -39,10 +39,46 @@
       color: #3d3d3d;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
+
+ .tab {
+  font-family: 'Oswald', sans-serif;
+  font-size: 3rem;
+  position: relative;
+  margin-bottom: 2.5rem;
+  cursor: pointer;
+  color: #475569; /* slate-600 */
+  transition: color 0.3s ease;
+}
+
+.tab::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 3.25rem;
+  width: 0;
+  height: 5px;
+  background-color: #BB7537;
+  transition: width 0.3s ease;
+}
+
+/* Applica hover solo se NON è selezionato */
+.tab:not(.sel):hover::after {
+  width: 100%;
+   background-color: #475569;
+}
+
+/* Selezionato: testo arancio e linea sempre visibile */
+.tab.sel {
+  color: #BB7537;
+}
+
+.tab.sel::after {
+  width: 100%;
+}
   </style>
 </head>
 
-<body class="flex flex-col justify-around items-center">
+<body style="font-family: 'def', sans-serif;" class="text-slate-800 flex flex-col justify-around items-center">
   <inst class="w-full">
     <div class="bg-myblue w-full h-fit p-3 flex justify-center items-center">
       <div class="flex w-[80%]  justify-around items-center">
@@ -75,7 +111,7 @@
         <a href="./dati.html">
           <li
             class="text-3xl relative after:bg-gray-600 after:absolute after:h-1 after:w-0 after:top-9 after:left-0 hover:after:w-full after:transition-all after:duration-400 cursor-pointer">
-            DASHBOARD</li>
+            RISULTATI</li>
         </a>
 
         <a href="./pnrr.html">
@@ -93,24 +129,26 @@
   </navbar>
 
   <div class="flex flex-col items-start lg:items-end max-w-[1200px] pt-20 w-[80%]">
-    <h1 style="font-family: 'Oswald', sans-serif" class="text-5xl text-slate-600 text-end">IL PROGETTO DATASCAN</h1>
+    <h1 style="font-family: 'Oswald', sans-serif" class="text-5xl text-instblue text-end">IL PROGETTO DATASCAN</h1>
     <div class="flex lg:flex-row flex-col-reverse items-center lg:items-end  lg:flex lg:justify-between  mt-10">
 
       <div
         class="flex flex-row w-full lg:w-fit justify-between lg:flex-col lg:justify-start items-center align-middle">
         <div class="w-fit">
-          <p style="font-family: 'Oswald', sans-serif" id="count" class="text-instblue text-end text-6xl w-[150px]  mb-2"></p>
+          <p style="font-family: 'Oswald', sans-serif" id="count" class="text-gray-700 text-end text-6xl w-[150px]  mb-2"></p>
           <p style="font-family: 'Oswald', sans-serif" class="text-gray-500 ">DI DATI ORARI</p>
         </div>
         <div class="lg:mt-10 justify-end">
           <p id="stat" style="font-family: 'Oswald', sans-serif" id="stat"
-            class="text-instblue text-6xl w-[145px] mb-2">
+            class="text-gray-700 text-6xl w-[145px] mb-2">
             2,543</p>
           <p style="font-family: 'Oswald', sans-serif" class="text-gray-500 ">CARTELLINI </p>
         </div>
       </div>
       <div class="lg:w-[60%] w-full text-2xl text-justify lg:mb-0 mb-10 lg:text-xl inline pb-2">
-       <p>DATASCAN ha elaborato cartellini storici settimanali contenenti dati idrologici e climatici raccolti dal Servizio Idrografico Nazionale. Dopo la scansione, sono state estratte serie sub-giornalieri di pioggia, temperatura e livelli idrometrici, organizzate in un geodatabase georiferito. I dati sono consultabili via WebGIS per analisi ambientali e modellazione idrologica.</p>
+ <p>
+Il progetto <strong>DATASCAN</strong> mira a digitalizzare e analizzare dati idro-meteo storici per creare un database georeferenziato ad alta risoluzione temporale, utile allo studio di eventi estremi e cambiamenti climatici. Utilizzando tecnologie OCR e GIS avanzate, i dati saranno resi liberamente accessibili. Il progetto si inserisce nel programma <strong>RETURN</strong> e beneficia del supporto finanziario dell’Unione Europea nell’ambito del <strong>NextGenerationEU</strong>, che ne ha favorito l’attuazione e l’adozione di soluzioni tecnologiche innovative.
+</p>
       </div>
     </div>
   </div>
@@ -119,14 +157,14 @@
     <div id="pdiv" class="flex flex-col  items-center lg:px-0 max-w-[1180px] w-[80%] mt-20">
       <div class="flex flex-col w-full lg:flex-row-reverse lg:items-start items-start lg:gap-20 justify-between">
         <h1 style="font-family: 'Oswald', sans-serif"
-          class="text-5xl mb-10 lg:mb-0 text-end text-slate-600 w-full block">
+          class="text-5xl mb-10 lg:mb-0 text-end text-instblue w-full block">
           METODOLOGIA
         </h1>
-        <div id="presentazione" class=" lg:text-lg  lg:max-w-[50%] text-justify text-2xl h-37">
-          Acquisizione, scansione e digitalizzazione dei cartellini pluviometrici con sviluppo di un software per l’estrazione automatica delle curve di pioggia e validazione tramite interfaccia grafica. Obiettivo: ottenere un dataset digitale sub-giornaliero delle precipitazioni storiche.
-        </div>
+        <p id="presentazione" class=" lg:text-lg  lg:max-w-[50%] text-justify text-2xl h-37 mb-10">
+         Il progetto inizia con l’acquisizione e la scansione dei cartellini pluviometrici conservati negli archivi idrografici. I dati registrati su supporti cartacei vengono convertiti in formato digitale mediante tecniche di elaborazione delle immagini. Viene sviluppato un software dedicato per trasformare i tracciati pluviometrici in valori numerici, permettendo così di ottenere serie storiche a risoluzione sub-giornaliera.
+        </p>
       </div>
-      <div class=" w-full mt-15">
+      <div class=" w-full mt-20">
         <div  draggable="false" class="flex justify-around gap-10 relative select-none">
           <div class="h-[20px] w-full absolute top-[46%] z-0 bg-slate-500 mask-[linear-gradient(to_right,transparent_0%,black_20%,black_80%,transparent_100%)]"></div>
           <div class="flex flex-col justify-center items-center selected h-[180px] w-[180px] focus:outline-instblue rounded-full z-2 bg-amber-50 cursor-pointer prof bg-center outline-4 outline-[rgba(255,255,255,0.6)] shadow-2xl  bg-cover hover:scale-[105%] transform transition duration-400 ease-in-out">
@@ -135,7 +173,7 @@
           </div>
           <div class="flex flex-col justify-center cursor-pointer items-center rounded-full bg-amber-50   prof h-[180px] z-2 w-[180px] bg-center outline-4 outline-[rgba(255,255,255,0.6)] bg-cover hover:scale-[105%] transform transition duration-300 ease-in-out">
             <p style="font-family: 'Oswald', sans-serif" class="text-5xl mb-1 text-slate-700">2</p>
-            <p style="font-family: 'Oswald', sans-serif" class="text-2xl mb-1 text-slate-700">ESTRAZIONE</p>
+            <p style="font-family: 'Oswald', sans-serif" class="text-2xl mb-1 text-slate-700">VALIDAZIONE</p>
           </div>
           <div class="flex flex-col justify-center items-center text-xl rounded-full   bg-amber-50 prof z-2 relative cursor-pointer profh-[180px] w-[180px] bg-center outline-4 outline-[rgba(255,255,255,0.6)] bg-cover hover:scale-[105%] transform transition duration-300 ease-in-out">
             <p style="font-family: 'Oswald', sans-serif" class="text-5xl mb-1 text-slate-700">3</p>
@@ -153,16 +191,16 @@
 
 
 
-  <div class="flex flex-col items-end mb-10 h-fit  max-w-[1200px] pt-20 w-[80%]">
+  <div class="flex flex-col items-end h-[460px] max-w-[1200px] pt-20 w-[80%]">
     <div>
-      <h2 style="font-family: 'Oswald', sans-serif" class="text-5xl text-slate-600 mb-10 flex items-end mb-20">FINALITA' DEL PROGETTO</h2>
+      <h2 style="font-family: 'Oswald', sans-serif" class="text-5xl text-instblue text- mb-10 flex items-end ">FINALITA' DEL PROGETTO</h2>
     </div>
     <div class="flex flex-row gap-10 justify-center items-center">
-      <p id='findiv' class="w-[55%] text-xl text-end">Il progetto mira a digitalizzare cartellini pluviometrici e termometrici storici, spesso unici, attraverso tecniche OCR e segmentazione automatica, restituendo dati orari altrimenti inaccessibili e fondamentali per l’analisi climatica e idrologica su scala sub-giornaliera. Il progetto mira a digitalizzare cartellini pluviometrici e termometrici storici, spesso unici, </p>
-      <div class="h-59 w-[5px] bg-instblue"></div>
-      <ul class="flex items-start justify-start flex-col gap-4 text-slate-400  w-[460px] ml-7">
-        <li draggable="false" class="fin finLi select-none hover:text-slate-700 cursor-pointer hover:scale-105 transition-all ease-in-out">RECUPERO DEI DATI STORICI AD ALTA RISOLUZIONE</li>
-        <li draggable="false" class="fin select-none hover:text-slate-700 cursor-pointer hover:scale-105 transition-all ease-in-out">VALORIZZAZINONE DEL PATRIMONIO IDROLOGICO</li>
+      <p id='findiv' class="w-[55%] text-xl text-end text-justify"> <strong>DATASCAN</strong> mira alla <strong>digitalizzazione</strong> dei dati contenuti nei cartellini pluviometrici conservati dagli ex uffici compartimentali. Questi dati, raccolti per decenni e pubblicati negli <strong>Annali Idrologici</strong>, rappresentano una risorsa per la comprensione dei fenomeni climatici. L’obiettivo è trasformare questi archivi cartacei in <strong>dataset numerici</strong> ad <strong>alta risoluzione</strong></p>
+      <div class="h-59 w-[5px] bg-slate-600"></div>
+      <ul class="flex items-start justify-start flex-col gap-4 text-slate-400 text-sm w-[440px] ml-7">
+        <li draggable="false" class="fin finLi select-none hover:text-slate-700 cursor-pointer hover:scale-105 transition-all ease-in-out">DIGITALIZZAZIONE DELLO STORICO IDROLOGICO</li>
+        <li draggable="false" class="fin select-none hover:text-slate-700 cursor-pointer hover:scale-105 transition-all ease-in-out">SISTEMA DI AUTOMATIZZAZINE ESTRAZIONE DATI</li>
         <li draggable="false" class="fin select-none hover:text-slate-700 cursor-pointer hover:scale-105 transition-all ease-in-out">COSTRUZIONE DI UN DATABASE GEOREFERENZIATO</li>
         <li draggable="false" class="fin select-none hover:text-slate-700 cursor-pointer hover:scale-105 transition-all ease-in-out">SUPPORTO ALLA RICERCA E ALLA MODELLAZIONE</li>
         <li draggable="false" class="fin select-none hover:text-slate-700 cursor-pointer hover:scale-105 transition-all ease-in-out">MONITORAGGIO DEL CAMBIAMENTO CLIMATICO</li>
@@ -170,14 +208,26 @@
     </div>
   </div>
 
-  <footer  class="appearOC mt-10 h-52 w-full bg-slate-600 flex justify-center shadow 2xl">
+  <div class="flex flex-col items-end mb-10 -mt-5 h-fit  max-w-[1200px] pt-20 w-[80%]">
+    <div class="flex justify-between w-full">
+      <h2 style="font-family: 'Oswald', sans-serif"
+            class="tab sel text-5xl">
+            RISULTATI</h2>
+      <h2 style="font-family: 'Oswald', sans-serif" class="tab text-5xl">ASPETTATIVE</h2>
+    </div>
+    <div class=" flex flex-row gap-10 justify-center items-center text-xl text-justify">
+     <p id="finale">Grazie al <strong>finanziamento europeo</strong> del programma <strong>Next Generation EU</strong>, il progetto <strong>DATASCAN</strong> ha raggiunto importanti traguardi. Sono stati <strong>digitalizzati</strong> migliaia di cartellini storici relativi a <strong>piogge, temperature</strong> e <strong>livelli idrometrici</strong>. È stato sviluppato un <strong>software</strong> per l’elaborazione automatica delle strisce pluviometriche e implementata una <strong>piattaforma WebGIS</strong> per l’accesso libero ai dati. I <strong>dataset georiferiti</strong> sono ora consultabili per studi sul <strong>clima</strong> e sulla <strong>gestione del rischio</strong>. Il progetto ha dimostrato l’efficacia della <strong>digitalizzazione storica</strong> come strumento di supporto alla <strong>pianificazione ambientale</strong> e alla <strong>ricerca scientifica</strong>.</p>
+    </div>
+  </div>
+
+  <footer  class="appearOC mt-10 h-52 w-full bg-instblue flex justify-center shadow 2xl">
     <div class="flex w-[90%] lg:w-[1180px] justify-between items-center">
      <div class=" ml-5">
         <img class="h-10 lg:h-12 mr-5 w-auto object-contain mb-4" src="./src/images/loghi/Return_logo.png" alt="return logo">
         <img class="h-10 lg:h-15 w-auto" src="./src/images/loghi/logoInteaBianco2.svg" alt="intea logo">
      </div>
      <div><img class="h-22 lg:h-32" src="./src/images/loghi/logowhite.png" alt=""></div>
-     <div class="text-end text-slate-400 text-xs flex flex-col gap-1">
+     <div class="text-end text-white text-sm flex flex-col gap-1">
       <p class=""><strong>INTEA</strong> s.r.l. a socio unico - 90143 Via Cirrincione 1 </p>
       <p class="">Tel. 901301850 - Fax. 9017866971</p>
       <p class=""></p> Email: intea@inteagis.it - PEC inteagis@pec.it</p>

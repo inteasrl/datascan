@@ -7,11 +7,17 @@
 
 @font-face {
   font-family: 'Oswald';
-  src: url('../src/fonts/Oswald-Bold.ttf') format('truetype');
+  src: url('../src/fonts/TitilliumWeb-Bold.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'def';
+  src: url('../src/fonts/TitilliumWeb-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 
 .flatpickr-day.selected,
 .flatpickr-day.startRange,
@@ -82,6 +88,14 @@
 .tabulator .tabulator-col {
   border: none !important;
 
+}
+
+
+.flatpickr-day.startRange,
+.flatpickr-day.endRange {
+
+  box-shadow: none !important;
+  border: none !important;
 }
 
 .tabulator {

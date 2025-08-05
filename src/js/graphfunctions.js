@@ -149,7 +149,7 @@ export function graficocumulata(graf, tabel, where) {
                 datasets: [{
                     label: 'Pioggia in mm',
                     data: tabellasist,
-                    backgroundColor: '#5096E6',
+                    backgroundColor: '#64748b',
                     spanGaps: true,
                     borderWidth: 0
                 }]
@@ -219,7 +219,7 @@ export function graficoietogramma(graf, tabel, where) {
                 datasets: [{
                     label: 'Pioggia in mm',
                     data: service.pergiornoietogramma(datiTabella),
-                    backgroundColor: '#5096E6',
+                    backgroundColor: '#64748b',
                     borderWidth: 0
                 }]
             },
@@ -290,7 +290,7 @@ export function graficoietogrammaPreciso(graf, tabel, where) {
                 datasets: [{
                     label: 'Pioggia in mm',
                     data: tabellasist,
-                    backgroundColor: '#5096E6',
+                    backgroundColor: '#64748b',
                     borderWidth: 0
                 }]
             },
@@ -399,6 +399,8 @@ const data = {
       
       return '#ffffff';
     },
+
+
     borderWidth: 1.5,
 
     hoverBorderColor: 'blue',
@@ -420,8 +422,8 @@ function getColorFromValue(value) {
   const easeInOutQuad = (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
   const t = easeInOutQuad(v);
 
-  const endColor = { r: 80, g: 150, b: 230 }; // #1266CD
-  const startColor = { r: 220, g: 235, b: 255 }; // azzurro chiaro
+  const startColor = { r: 241, g: 245, b: 249 }; // slate-100 (#f1f5f9)
+  const endColor = { r: 100, g: 116, b: 139 };     // slate-500  (#64748b)
 
   const r = Math.round(startColor.r + (endColor.r - startColor.r) * t);
   const g = Math.round(startColor.g + (endColor.g - startColor.g) * t);
