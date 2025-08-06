@@ -6,7 +6,7 @@
 }
 
 @font-face {
-  font-family: 'Oswald';
+  font-family: 'titillium-bold';
   src: url('../src/fonts/TitilliumWeb-Bold.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
@@ -47,7 +47,7 @@
 }
 
 .flatpickr-weekdays {
-  font-family: "oswald", "sans-serif";
+  font-family: "titillium-bold", "sans-serif";
 }
 
 .flatpickr-calendar {

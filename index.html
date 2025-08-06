@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>Mappa + Tabella Esri</title>
+  <title>datascan</title>
   <link rel="stylesheet" href="https://js.arcgis.com/4.27/esri/themes/light/main.css" />
   <script src="https://js.arcgis.com/4.27/"></script>
   <script type="module" src="./src/js/heromap.js" async></script>
@@ -41,7 +41,7 @@
     }
 
  .tab {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'titillium-bold', sans-serif;
   font-size: 3rem;
   position: relative;
   margin-bottom: 2.5rem;
@@ -92,13 +92,19 @@
   </inst>
 
   <div class="w-full h-96 overflow-clip relative">
-    <img class="absolute top-[25%] h-52 z-100 left-[5%] lg:left-[15%]"
+    
+    <div id="viewDiv"></div>
+     <img class="absolute   z-100 top-0 left-0 "
+      src="./src/images/loghi/Senzanome.png" alt="">
+      <img class="absolute top-[25%] h-52 z-100 left-[5%] lg:left-[15%]"
       src="./src/images/loghi/logo.png" alt="">
     <div id="viewDiv"></div>
   </div>
 
   
-  <navbar style="font-family: 'Oswald', sans-serif; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);"
+
+  
+  <navbar style="font-family: 'titillium-bold', sans-serif; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);"
     class="sticky z-100 top-0 bg-gray-50 flex flex-col w-full items-center  justify-center py-5 text-gray-600">
     <div class="flex w-full mx-20 justify-center  items-center">
       <ul class="flex gap-10 w-full mx-20 lg:w-[1180px] ">
@@ -129,20 +135,20 @@
   </navbar>
 
   <div class="flex flex-col items-start lg:items-end max-w-[1200px] pt-20 w-[80%]">
-    <h1 style="font-family: 'Oswald', sans-serif" class="text-5xl text-instblue text-end">IL PROGETTO DATASCAN</h1>
+    <h1 style="font-family: 'titillium-bold', sans-serif" class="text-5xl text-instblue text-end">IL PROGETTO DATASCAN</h1>
     <div class="flex lg:flex-row flex-col-reverse items-center lg:items-end  lg:flex lg:justify-between  mt-10">
 
       <div
         class="flex flex-row w-full lg:w-fit justify-between lg:flex-col lg:justify-start items-center align-middle">
         <div class="w-fit">
-          <p style="font-family: 'Oswald', sans-serif" id="count" class="text-gray-700 text-end text-6xl w-[150px]  mb-2"></p>
-          <p style="font-family: 'Oswald', sans-serif" class="text-gray-500 ">DI DATI ORARI</p>
+          <p style="font-family: 'titillium-bold', sans-serif" id="count" class="text-gray-700 text-end text-6xl w-[150px]  mb-2"></p>
+          <p style="font-family: 'titillium-bold', sans-serif" class="text-gray-500 ">DI DATI ORARI</p>
         </div>
         <div class="lg:mt-10 justify-end">
-          <p id="stat" style="font-family: 'Oswald', sans-serif" id="stat"
+          <p id="stat" style="font-family: 'titillium-bold', sans-serif" id="stat"
             class="text-gray-700 text-6xl w-[145px] mb-2">
             2,543</p>
-          <p style="font-family: 'Oswald', sans-serif" class="text-gray-500 ">CARTELLINI </p>
+          <p style="font-family: 'titillium-bold', sans-serif" class="text-gray-500 ">CARTELLINI </p>
         </div>
       </div>
       <div class="lg:w-[60%] w-full text-2xl text-justify lg:mb-0 mb-10 lg:text-xl inline pb-2">
@@ -156,7 +162,7 @@ Il progetto <strong>DATASCAN</strong> mira a digitalizzare e analizzare dati idr
   <div class="dic w-full bg-slate-300 mt-20 flex justify-center ">
     <div id="pdiv" class="flex flex-col  items-center lg:px-0 max-w-[1180px] w-[80%] mt-20">
       <div class="flex flex-col w-full lg:flex-row-reverse lg:items-start items-start lg:gap-20 justify-between">
-        <h1 style="font-family: 'Oswald', sans-serif"
+        <h1 style="font-family: 'titillium-bold', sans-serif"
           class="text-5xl mb-10 lg:mb-0 text-end text-instblue w-full block">
           METODOLOGIA
         </h1>
@@ -168,16 +174,16 @@ Il progetto <strong>DATASCAN</strong> mira a digitalizzare e analizzare dati idr
         <div  draggable="false" class="flex justify-around gap-10 relative select-none">
           <div class="h-[20px] w-full absolute top-[46%] z-0 bg-slate-500 mask-[linear-gradient(to_right,transparent_0%,black_20%,black_80%,transparent_100%)]"></div>
           <div class="flex flex-col justify-center items-center selected h-[180px] w-[180px] focus:outline-instblue rounded-full z-2 bg-amber-50 cursor-pointer prof bg-center outline-4 outline-[rgba(255,255,255,0.6)] shadow-2xl  bg-cover hover:scale-[105%] transform transition duration-400 ease-in-out">
-            <p style="font-family: 'Oswald', sans-serif" class="text-5xl mb-1 text-slate-700">1</p>
-            <p style="font-family: 'Oswald', sans-serif" class="text-2xl mb-1 text-slate-700">SCAN</p>
+            <p style="font-family: 'titillium-bold', sans-serif" class="text-5xl mb-1 text-slate-700">1</p>
+            <p style="font-family: 'titillium-bold', sans-serif" class="text-2xl mb-1 text-slate-700">SCAN</p>
           </div>
           <div class="flex flex-col justify-center cursor-pointer items-center rounded-full bg-amber-50   prof h-[180px] z-2 w-[180px] bg-center outline-4 outline-[rgba(255,255,255,0.6)] bg-cover hover:scale-[105%] transform transition duration-300 ease-in-out">
-            <p style="font-family: 'Oswald', sans-serif" class="text-5xl mb-1 text-slate-700">2</p>
-            <p style="font-family: 'Oswald', sans-serif" class="text-2xl mb-1 text-slate-700">VALIDAZIONE</p>
+            <p style="font-family: 'titillium-bold', sans-serif" class="text-5xl mb-1 text-slate-700">2</p>
+            <p style="font-family: 'titillium-bold', sans-serif" class="text-2xl mb-1 text-slate-700">VALIDAZIONE</p>
           </div>
           <div class="flex flex-col justify-center items-center text-xl rounded-full   bg-amber-50 prof z-2 relative cursor-pointer profh-[180px] w-[180px] bg-center outline-4 outline-[rgba(255,255,255,0.6)] bg-cover hover:scale-[105%] transform transition duration-300 ease-in-out">
-            <p style="font-family: 'Oswald', sans-serif" class="text-5xl mb-1 text-slate-700">3</p>
-            <p style="font-family: 'Oswald', sans-serif" class="text-2xl mb-1 text-slate-700">ANALISI</p>
+            <p style="font-family: 'titillium-bold', sans-serif" class="text-5xl mb-1 text-slate-700">3</p>
+            <p style="font-family: 'titillium-bold', sans-serif" class="text-2xl mb-1 text-slate-700">ANALISI</p>
           </div>
         
         </div>
@@ -191,9 +197,9 @@ Il progetto <strong>DATASCAN</strong> mira a digitalizzare e analizzare dati idr
 
 
 
-  <div class="flex flex-col items-end h-[460px] max-w-[1200px] pt-20 w-[80%]">
+  <div class="flex flex-col items-end h-[460px] max-w-[1200px] pt-20 w-[80%] mt-5">
     <div>
-      <h2 style="font-family: 'Oswald', sans-serif" class="text-5xl text-instblue text- mb-10 flex items-end ">FINALITA' DEL PROGETTO</h2>
+      <h2 style="font-family: 'titillium-bold', sans-serif" class="text-5xl text-instblue text- mb-10 flex items-end ">FINALITA' DEL PROGETTO</h2>
     </div>
     <div class="flex flex-row gap-10 justify-center items-center">
       <p id='findiv' class="w-[55%] text-xl text-end text-justify"> <strong>DATASCAN</strong> mira alla <strong>digitalizzazione</strong> dei dati contenuti nei cartellini pluviometrici conservati dagli ex uffici compartimentali. Questi dati, raccolti per decenni e pubblicati negli <strong>Annali Idrologici</strong>, rappresentano una risorsa per la comprensione dei fenomeni climatici. L’obiettivo è trasformare questi archivi cartacei in <strong>dataset numerici</strong> ad <strong>alta risoluzione</strong></p>
@@ -201,19 +207,19 @@ Il progetto <strong>DATASCAN</strong> mira a digitalizzare e analizzare dati idr
       <ul class="flex items-start justify-start flex-col gap-4 text-slate-400 text-sm w-[440px] ml-7">
         <li draggable="false" class="fin finLi select-none hover:text-slate-700 cursor-pointer hover:scale-105 transition-all ease-in-out">DIGITALIZZAZIONE DELLO STORICO IDROLOGICO</li>
         <li draggable="false" class="fin select-none hover:text-slate-700 cursor-pointer hover:scale-105 transition-all ease-in-out">SISTEMA DI AUTOMATIZZAZINE ESTRAZIONE DATI</li>
-        <li draggable="false" class="fin select-none hover:text-slate-700 cursor-pointer hover:scale-105 transition-all ease-in-out">COSTRUZIONE DI UN DATABASE GEOREFERENZIATO</li>
+        <li draggable="false" class="fin select-none hover:text-slate-700 cursor-pointer hover:scale-105 transition-all ease-in-out">COSTRUZIONE DATABASE GEOREFERENZIATO</li>
         <li draggable="false" class="fin select-none hover:text-slate-700 cursor-pointer hover:scale-105 transition-all ease-in-out">SUPPORTO ALLA RICERCA E ALLA MODELLAZIONE</li>
         <li draggable="false" class="fin select-none hover:text-slate-700 cursor-pointer hover:scale-105 transition-all ease-in-out">MONITORAGGIO DEL CAMBIAMENTO CLIMATICO</li>
       </ul>
     </div>
   </div>
 
-  <div class="flex flex-col items-end mb-10 -mt-5 h-fit  max-w-[1200px] pt-20 w-[80%]">
-    <div class="flex justify-between w-full">
-      <h2 style="font-family: 'Oswald', sans-serif"
+  <div class="flex flex-col items-end mb-10 -mt-5 h-fit  max-w-[1200px] pt-20 w-[80%] mt-10">
+    <div class="flex flex-row-reverse  justify-between w-full">
+      <h2 style="font-family: 'titillium-bold', sans-serif"
             class="tab sel text-5xl">
             RISULTATI</h2>
-      <h2 style="font-family: 'Oswald', sans-serif" class="tab text-5xl">ASPETTATIVE</h2>
+      <h2 style="font-family: 'titillium-bold', sans-serif" class="tab text-5xl">ASPETTATIVE</h2>
     </div>
     <div class=" flex flex-row gap-10 justify-center items-center text-xl text-justify">
      <p id="finale">Grazie al <strong>finanziamento europeo</strong> del programma <strong>Next Generation EU</strong>, il progetto <strong>DATASCAN</strong> ha raggiunto importanti traguardi. Sono stati <strong>digitalizzati</strong> migliaia di cartellini storici relativi a <strong>piogge, temperature</strong> e <strong>livelli idrometrici</strong>. È stato sviluppato un <strong>software</strong> per l’elaborazione automatica delle strisce pluviometriche e implementata una <strong>piattaforma WebGIS</strong> per l’accesso libero ai dati. I <strong>dataset georiferiti</strong> sono ora consultabili per studi sul <strong>clima</strong> e sulla <strong>gestione del rischio</strong>. Il progetto ha dimostrato l’efficacia della <strong>digitalizzazione storica</strong> come strumento di supporto alla <strong>pianificazione ambientale</strong> e alla <strong>ricerca scientifica</strong>.</p>

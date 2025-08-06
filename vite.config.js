@@ -10,6 +10,7 @@ export default defineConfig({
       input: { 
         main: 'index.html',
         dati:'dati.html',
+        prnn: 'pnrr.html',
         privacy: 'privacy.html'
       }
     }

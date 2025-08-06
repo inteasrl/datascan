@@ -23,11 +23,13 @@ Array.from(lifin).forEach(f =>{
     })
 })
     
+
+
 const tabs = document.querySelectorAll('.tab');
 
 tabs.forEach((tab, index) => {
   tab.addEventListener('click', () => {
-    final(index + 1); // Chiamerà final(1), final(2), ecc.
+    final(tabs.length - index); // Invertito: primo tab → final(n), ultimo tab → final(1)
 
     tabs.forEach(t => t.classList.remove('sel'));
     tab.classList.add('sel');
