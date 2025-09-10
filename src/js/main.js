@@ -76,20 +76,20 @@ let findiv = document.getElementById("findiv")
 function finalita (caso) {
        switch (caso){
         case 0:
-            findiv.innerHTML = "Il progetto <strong>DATASCAN</strong> mira alla <strong>digitalizzazione</strong> dei dati contenuti nei cartellini pluviometrici conservati dagli ex uffici compartimentali. Questi dati, raccolti per decenni e pubblicati negli <strong>Annali Idrologici</strong>, rappresentano una risorsa per la comprensione dei fenomeni climatici. L’obiettivo è trasformare questi archivi cartacei in <strong>dataset numerici</strong> ad <strong>alta risoluzione</strong>"
-        break
+            findiv.innerHTML = "DATASCAN mira alla digitalizzazione dei dati contenuti nei cartellini pluviometrici conservati dagli ex uffici compartimentali. Questi dati, raccolti per decenni e pubblicati negli Annali Idrologici, rappresentano una risorsa per la comprensione dei fenomeni climatici. L’obiettivo è trasformare questi archivi cartacei in dataset numerici ad alta risoluzione";
+        break;
         case 1:
-             findiv.innerHTML = "Una delle finalità centrali è la realizzazione di un sistema <strong>semi-automatico</strong> basato su <strong>OCR</strong> e tecniche di <strong>segmentazione dell’immagine</strong>, capace di leggere le strisce di carta dei cartellini. Questo sistema sarà in grado di riconoscere il <strong>tracciato pluviometrico</strong> (<em>ietogramma</em>), ricostruendo con precisione la <strong>pioggia cumulata</strong> con risoluzione <strong>sub-giornaliera</strong>"
-        break
+            findiv.innerHTML = "Una delle finalità centrali è la realizzazione di un sistema semi-automatico basato su OCR e tecniche di segmentazione dell’immagine, capace di leggere le strisce di carta dei cartellini. Questo sistema sarà in grado di riconoscere il tracciato pluviometrico (<em>ietogramma</em>), ricostruendo con precisione la pioggia cumulata con risoluzione sub-giornaliera";
+            break;
         case 2:
-             findiv.innerHTML = "Il progetto prevede la creazione di un <strong>geodatabase</strong>, pensato per rendere agevole l’<strong>archiviazione</strong>, la <strong>consultazione</strong> e l’<strong>analisi</strong> dei dati. Questo database sarà integrato in una <strong>piattaforma</strong> basata su <strong>ArcGIS Online</strong>, consentendo la <strong>visualizzazione spaziale</strong> dei dati, l’applicazione di algoritmi di <strong>controllo</strong> e l’elaborazione di <strong>trend</strong> idrologici"
-        break
+            findiv.innerHTML = "Il progetto prevede la creazione di un geodatabase, pensato per rendere agevole l’archiviazione, la consultazione e l’analisi dei dati. Questo database sarà integrato in una piattaforma basata su ArcGIS Online, consentendo la visualizzazione spaziale dei dati, l’applicazione di algoritmi di controllo e l’elaborazione di trend idrologici";
+        break;
         case 3:
-             findiv.innerHTML = "<strong>DATASCAN</strong> offre alla <strong>comunità scientifica</strong> e ai <strong>decisori politici</strong> un insieme di <strong>dati georiferiti</strong> liberamente accessibili, relativi a <strong>precipitazioni</strong> con risoluzione temporale <strong>oraria</strong> o <strong>sub-oraria</strong>. Questo rappresenta un passo avanti per migliorare le <strong>stime statistiche</strong> dei fenomeni estremi e per analizzare i segnali di <strong>cambiamento climatico</strong> su scala nazionale.</p>"
-        break
+            findiv.innerHTML = "DATASCAN offre alla comunità scientifica e ai decisori politici un insieme di dati georiferiti liberamente accessibili, relativi a precipitazioni con risoluzione temporale oraria o sub-oraria. Questo rappresenta un passo avanti per migliorare le stime statistiche dei fenomeni estremi e per analizzare i segnali di cambiamento climatico su scala nazionale.";
+        break;
         case 4:
-             findiv.innerHTML = "Grazie all’elevato dettaglio e alla lunga estensione delle serie, i dati ottenuti  potranno essere impiegati in applicazioni di <strong>modellazione idrologica</strong>, <strong>simulazione di eventi estremi</strong>, calibrazione di <strong>modelli afflussi-deflussi</strong> e valutazione di <strong>rischio climatico</strong>. Il progetto fornisce così un’infrastruttura dati per lo sviluppo di strumenti <strong>previsionali avanzati</strong>"
-        break
+            findiv.innerHTML = "Grazie all’elevato dettaglio e alla lunga estensione delle serie, i dati ottenuti potranno essere impiegati in applicazioni di modellazione idrologica, simulazione di eventi estremi, calibrazione di modelli afflussi-deflussi e valutazione di rischio climatico. Il progetto fornisce così un’infrastruttura dati per lo sviluppo di strumenti previsionali avanzati";
+        break;
     }
 } 
 
@@ -107,26 +107,24 @@ function descrizione (caso ) {
     }
 }
 
-function aspect (caso ) {
-    switch (caso){
+function aspect(caso) {
+    switch (caso) {
         case 2:
-            presentazione.innerHTML = "Il progetto <strong>DATASCAN</strong> si propone di <strong>recuperare e digitalizzare</strong> dati idro-meteo storici ad <strong>alta risoluzione temporale</strong>, rendendoli disponibili per <strong>analisi ambientali</strong> e <strong>modellazione idrologica</strong>. Attraverso <strong>tecnologie OCR</strong>, segmentazione immagini e sviluppo di un <strong>geodatabase</strong> georiferito, si mira a produrre <strong>serie temporali continue</strong> di precipitazione, temperatura e livello idrometrico. I dati saranno integrati in una <strong>piattaforma WebGIS</strong> interattiva per la <strong>visualizzazione</strong> e il <strong>controllo</strong> dei dati. Si attende un impatto rilevante per la ricerca sul <strong>cambiamento climatico</strong> e per la <strong>resilienza territoriale</strong> ai rischi idrologici"
-        break
+            presentazione.innerHTML = "Il progetto DATASCAN si propone di recuperare e digitalizzare dati idro-meteo storici ad alta risoluzione temporale, rendendoli disponibili per analisi ambientali e modellazione idrologica. Attraverso tecnologie OCR, segmentazione immagini e sviluppo di un geodatabase georiferito, si mira a produrre serie temporali continue di precipitazione, temperatura e livello idrometrico. I dati saranno integrati in una piattaforma WebGIS interattiva per la visualizzazione e il controllo dei dati. Si attende un impatto rilevante per la ricerca sul cambiamento climatico e per la resilienza territoriale ai rischi idrologici";
+            break;
         case 1:
-             presentazione.innerHTML = "Grazie al <strong>finanziamento europeo</strong> del programma <strong>Next Generation EU</strong>, il progetto <strong>DATASCAN</strong> ha raggiunto importanti traguardi. Sono stati <strong>digitalizzati</strong> migliaia di cartellini storici relativi a <strong>piogge, temperature</strong> e <strong>livelli idrometrici</strong>. È stato sviluppato un <strong>software</strong> per l’elaborazione automatica delle strisce pluviometriche e implementata una <strong>piattaforma WebGIS</strong> per l’accesso libero ai dati. I <strong>dataset georiferiti</strong> sono ora consultabili per studi sul <strong>clima</strong> e sulla <strong>gestione del rischio</strong>. Il progetto ha dimostrato l’efficacia della <strong>digitalizzazione storica</strong> come strumento di supporto alla <strong>pianificazione ambientale</strong> e alla <strong>ricerca scientifica</strong>."
-        break
-     k
+            presentazione.innerHTML = "Grazie al finanziamento europeo del programma Next Generation EU, il progetto DATASCAN ha raggiunto importanti traguardi. Sono stati digitalizzati migliaia di cartellini storici relativi a piogge, temperature e livelli idrometrici. È stato sviluppato un software per l’elaborazione automatica delle strisce pluviometriche e implementata una piattaforma WebGIS per l’accesso libero ai dati. I dataset georiferiti sono ora consultabili per studi sul clima e sulla gestione del rischio. Il progetto ha dimostrato l’efficacia della digitalizzazione storica come strumento di supporto alla pianificazione ambientale e alla ricerca scientifica.";
+            break;
     }
 }
 
-function final (caso ) {
-    switch (caso){
+function final(caso) {
+    switch (caso) {
         case 1:
-            finale.innerHTML = "Il progetto <strong>DATASCAN</strong> si propone di <strong>recuperare e digitalizzare</strong> dati idro-meteo storici ad <strong>alta risoluzione temporale</strong>, rendendoli disponibili per <strong>analisi ambientali</strong> e <strong>modellazione idrologica</strong>. Attraverso <strong>tecnologie OCR</strong>, segmentazione immagini e sviluppo di un <strong>geodatabase</strong> georiferito, si mira a produrre <strong>serie temporali continue</strong> di precipitazione. I dati saranno integrati in una <strong>piattaforma WebGIS</strong> interattiva per la <strong>visualizzazione</strong> e il <strong>controllo</strong> dei dati. Si attende un impatto rilevante per la ricerca sul <strong>cambiamento climatico</strong> e per la <strong>resilienza territoriale</strong> ai rischi idrologici"
-        break
+            finale.innerHTML = "Il progetto DATASCAN si propone di recuperare e digitalizzare dati idro-meteo storici ad alta risoluzione temporale, rendendoli disponibili per analisi ambientali e modellazione idrologica. Attraverso tecnologie OCR, segmentazione immagini e sviluppo di un geodatabase georiferito, si mira a produrre serie temporali continue di precipitazione. I dati saranno integrati in una piattaforma WebGIS interattiva per la visualizzazione e il controllo dei dati. Si attende un impatto rilevante per la ricerca sul cambiamento climatico e per la resilienza territoriale ai rischi idrologici";
+            break;
         case 2:
-             finale.innerHTML = "Grazie al <strong>finanziamento europeo</strong> del programma <strong>NextGenerationEU</strong>, il progetto <strong>DATASCAN</strong> ha raggiunto importanti traguardi. Sono stati <strong>digitalizzati</strong> migliaia di cartellini storici relativi alle <strong>piogge</strong>. È stato sviluppato un <strong>software</strong> per l’elaborazione automatica delle strisce pluviometriche e implementata una <strong>piattaforma WebGIS</strong> per l’accesso libero ai dati. I <strong>dataset georiferiti</strong> sono ora consultabili per studi sul <strong>clima</strong> e sulla <strong>gestione del rischio</strong>. Il progetto ha dimostrato l’efficacia della <strong>digitalizzazione storica</strong> come strumento di supporto alla <strong>pianificazione ambientale</strong> e alla <strong>ricerca scientifica</strong>."
-        break
-     k
+            finale.innerHTML = "Grazie al finanziamento europeo del programma NextGenerationEU, il progetto DATASCAN ha raggiunto importanti traguardi. Sono stati digitalizzati migliaia di cartellini storici relativi alle piogge. È stato sviluppato un software per l’elaborazione automatica delle strisce pluviometriche e implementata una piattaforma WebGIS per l’accesso libero ai dati. I dataset georiferiti sono ora consultabili per studi sul clima e sulla gestione del rischio. Il progetto ha dimostrato l’efficacia della digitalizzazione storica come strumento di supporto alla pianificazione ambientale e alla ricerca scientifica.";
+            break;
     }
 }

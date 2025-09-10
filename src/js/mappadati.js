@@ -15,7 +15,7 @@ import Graphic from "@arcgis/core/Graphic";
 
 import * as graph from "./graphfunctions.js"
 import * as service from "./services.js"
-import { data } from 'jquery';
+
 
 const ctx = document.getElementById('graficoTorta').getContext('2d');
 const cumul = document.getElementById('cumulata').getContext('2d');
@@ -40,6 +40,38 @@ const disapp = document.getElementsByClassName("disappearOC")
 const coommits = document.getElementById('matrix').getContext('2d');
 const selmob = document.getElementById("sel2")
 
+const selector = document.getElementsByClassName("selector")
+const infodiv = document.getElementsByClassName("info-centr")
+
+
+const infoStazione = document.getElementById("info-stazione");
+const metadati = document.getElementById("metadati");
+
+for (let i = 0; i < selector.length; i++) {
+  selector[i].addEventListener("click", function () {
+    // reset di tutti i tab
+    for (let j = 0; j < selector.length; j++) {
+      selector[j].classList.remove("tab-active");
+      selector[j].classList.add("tab-inactive");
+    }
+
+    // attivo solo quello cliccato
+    this.classList.remove("tab-inactive");
+    this.classList.add("tab-active");
+
+    // toggle visibilità in base a quale tab è stato cliccato
+    if (i === 1) {
+      // primo tab selezionato
+      infoStazione.classList.add("hidden");
+      metadati.classList.remove("hidden");
+    } else {
+      // secondo tab selezionato
+      infoStazione.classList.remove("hidden");
+      metadati.classList.add("hidden");
+    }
+  });
+}
+
 Array.from(info).forEach(f => {
   f.addEventListener('mouseenter', function () {
     f.nextElementSibling.style.display = "flex";
@@ -55,7 +87,7 @@ let datas = []
 
 if (window.matchMedia("(min-width:1080px)").matches) {
   mappa.style.width = "185%"
-  
+    mappa.style.transition = "none";
   dat.style.display = "hidden"
   selmob.style.display = "none"
 } else {
@@ -135,8 +167,8 @@ view.container.addEventListener('mousedown', function (e) {
   };
   const highlightLayer = new GraphicsLayer();
   highlightLayer.listMode = "show";
-highlightLayer.order = 999; // Lo porta sopra
- webmap.layers.add(highlightLayer);
+  highlightLayer.order = 999; // Lo porta sopra
+  webmap.layers.add(highlightLayer);
 
 
 
@@ -211,13 +243,13 @@ view.when(() => {
           nomeLabel.innerHTML = fullFeature.attributes["Nome_Stazione"]
 
           const ID_Centralina = document.getElementById("id")
-          ID_Centralina.innerHTML = fullFeature.attributes["ID_Centralina"]
+          ID_Centralina.innerHTML = "-";//fullFeature.attributes["ID_Centralina"]
 
           const cartellini = document.getElementById("numero")
           cartellini.innerHTML = fullFeature.attributes["Cart_Elaborati"]
 
           const posizione = document.getElementById("posizione")
-          posizione.innerHTML =  fullFeature.attributes["Longitudine"] + "° N " + fullFeature.attributes["Latitudine"] + "°E ~ qslm: " +   fullFeature.attributes["Quota"] + "m"
+          posizione.innerHTML =  fullFeature.attributes["Longitudine"] + "°N " + fullFeature.attributes["Latitudine"] + "°E ~ m SLM: " +   fullFeature.attributes["Quota"] + "m"
 
 
           
