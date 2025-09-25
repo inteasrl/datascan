@@ -27,7 +27,7 @@ const dat = document.getElementById('datediv')
 
 const tablediv = document.getElementById("tablediv")
 const tabdiv = document.getElementById("graphdiv")
-const statdiv = document.getElementById("statdiv")
+
 const infodisp = document.getElementById("infodisp")
 
 const appearOC = document.getElementsByClassName("appearOC")
@@ -43,9 +43,14 @@ const selmob = document.getElementById("sel2")
 const selector = document.getElementsByClassName("selector")
 const infodiv = document.getElementsByClassName("info-centr")
 
-
 const infoStazione = document.getElementById("info-stazione");
 const metadati = document.getElementById("metadati");
+
+const globalID = document.getElementById("globalID");
+const codiceArpa = document.getElementById("codiceArpa");
+const indirizzo = document.getElementById("indirizzo");
+const ellissoide = document.getElementById("ellissoide");
+const arpa = document.getElementById("arpa");
 
 for (let i = 0; i < selector.length; i++) {
   selector[i].addEventListener("click", function () {
@@ -251,7 +256,12 @@ view.when(() => {
           const posizione = document.getElementById("posizione")
           posizione.innerHTML =  fullFeature.attributes["Longitudine"] + "°N " + fullFeature.attributes["Latitudine"] + "°E ~ m SLM: " +   fullFeature.attributes["Quota"] + "m"
 
-
+          globalID.innerHTML = fullFeature.attributes["GlobalID"]
+          codiceArpa.innerHTML = fullFeature.attributes["Codice Arpa"]
+          indirizzo.innerHTML = fullFeature.attributes["Indirizzo"]
+          ellissoide.innerHTML = fullFeature.attributes["Ellissoide"]
+          arpa.innerHTML = fullFeature.attributes["Dati da Arpa"]
+        
           
           graph.grafico([fullFeature.attributes["Attenzionati"], fullFeature.attributes["Malfunzionanti"], fullFeature.attributes["Zero_Pioggia"], fullFeature.attributes["Discordanti"], (fullFeature.attributes["Cart_Elaborati"] - fullFeature.attributes["Attenzionati"] - fullFeature.attributes["Malfunzionanti"] - fullFeature.attributes["Zero_Pioggia"] - fullFeature.attributes["Discordanti"])], ctx)
 
