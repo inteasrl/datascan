@@ -31,8 +31,8 @@ const tabdiv = document.getElementById("graphdiv")
 const infodisp = document.getElementById("infodisp")
 
 const appearOC = document.getElementsByClassName("appearOC")
-const info = document.getElementsByClassName("info") 
-const range = document.getElementsByClassName("range") 
+const info = document.getElementsByClassName("info")
+const range = document.getElementsByClassName("range")
 
 const tuttiDati = document.getElementsByClassName("tuttiDati")
 const disapp = document.getElementsByClassName("disappearOC")
@@ -51,6 +51,25 @@ const codiceArpa = document.getElementById("codiceArpa");
 const indirizzo = document.getElementById("indirizzo");
 const ellissoide = document.getElementById("ellissoide");
 const arpa = document.getElementById("arpa");
+
+const divLista = document.getElementById("divLista");
+
+const close = document.getElementById("closeList");
+close.addEventListener("click", () => {
+  divLista.style.padding = "1"
+
+  divLista.style.width = "0px";
+  close.style.display = "none"
+  open.style.display = "block"
+})
+
+const open = document.getElementById("openList");
+open.addEventListener("click", () => {
+  divLista.style.padding = "20"
+  divLista.style.width = "100%";
+  close.style.display = "block"
+  open.style.display = "none"
+})
 
 for (let i = 0; i < selector.length; i++) {
   selector[i].addEventListener("click", function () {
@@ -83,16 +102,18 @@ Array.from(info).forEach(f => {
   })
 
   f.addEventListener('mouseleave', () => {
-       f.nextElementSibling.style.display = "none";
+    f.nextElementSibling.style.display = "none";
   });
 })
+
+
 
 const originalTransition = getComputedStyle(mappa).transition;
 let datas = []
 
 if (window.matchMedia("(min-width:1080px)").matches) {
   mappa.style.width = "185%"
-    mappa.style.transition = "none";
+  mappa.style.transition = "none";
   dat.style.display = "hidden"
   selmob.style.display = "none"
 } else {
@@ -113,27 +134,27 @@ export let cal = flatpickr("#datePicker", {
   mode: "range",
   locale: Italian,
   onChange: function (selectedDates, dateStr, instance) {
-   
+
     console.log("ciaoo" + dateStr)
     if (selectedDates.length >= 2) {
       Array.from(range).forEach(f => {
-        f.innerHTML= dateStr
+        f.innerHTML = dateStr
       })
-      infodisp.innerHTML = dateStr.substring(0,10) + " ~ " + (parseInt(dateStr.substring(0,4)) + 1) + dateStr.substring(4,10)
+      infodisp.innerHTML = dateStr.substring(0, 10) + " ~ " + (parseInt(dateStr.substring(0, 4)) + 1) + dateStr.substring(4, 10)
       let query = ("DataOra BETWEEN '" + dateStr.substring(0, 10) + "' AND '" + dateStr.substring(14, 25) + "'")
       let queryStat = ("Data > '" + dateStr.substring(0, 10) + "'")
       console.log(query)
       graph.graficocumulata(cumul, tabel, query)
       graph.matrix(tabelStat, coommits, queryStat)
-      if(service.differenzaMinoreDiQuattroGiorni(new Date(dateStr.substring(0,10)), new Date(dateStr.substring(dateStr.length - 10,dateStr.length)))){
+      if (service.differenzaMinoreDiQuattroGiorni(new Date(dateStr.substring(0, 10)), new Date(dateStr.substring(dateStr.length - 10, dateStr.length)))) {
         graph.graficoietogrammaPreciso(iet, tabel, query)
       } else {
         graph.graficoietogramma(iet, tabel, query)
       }
-      
+
       if (query == null) {
         tabella(tabel, "1=1")
-        
+
       } else {
         tabella(tabel, query)
       }
@@ -152,35 +173,35 @@ const webmap = new WebMap({
 const view = new MapView({
   container: "viewDiv",
   map: webmap,
-  
-  
+
+
 });
 view.popup.highlightEnabled = false;
 view.container.addEventListener('mousedown', function (e) {
   e.preventDefault(); // Impedisce il focus per rimuovere la outline nera bruttissima
 });
 
-  const highlightSymbol = {
-    type: "simple-marker",
-    style: "circle",
-    color: [255, 255, 255, 0.7],  // bianco trasparente
-    size: "12px",
-    outline: {
-      color: [0, 0, 0, 0.8],
-      width: 1
-    }
-  };
-  const highlightLayer = new GraphicsLayer();
-  highlightLayer.listMode = "show";
-  highlightLayer.order = 999; // Lo porta sopra
-  webmap.layers.add(highlightLayer);
+const highlightSymbol = {
+  type: "simple-marker",
+  style: "circle",
+  color: [255, 255, 255, 0.7],  // bianco trasparente
+  size: "12px",
+  outline: {
+    color: [0, 0, 0, 0.8],
+    width: 1
+  }
+};
+const highlightLayer = new GraphicsLayer();
+highlightLayer.listMode = "show";
+highlightLayer.order = 999; // Lo porta sopra
+webmap.layers.add(highlightLayer);
 
 
 
 view.when(() => {
   // Trova il layer interessato
   const layer = view.map.layers.find(l => l.title === "Centraline");
-  
+
   console.log("Tipo geometria:", layer.geometryType);
   layer.labelsVisible = false;
   layer.queryFeatures({
@@ -189,10 +210,116 @@ view.when(() => {
     returnGeometry: false
   }).then(result => {
     let dati = result.features.map(f => ({ ...f.attributes }));
+
+
+
+    //gestione lista
+    document.getElementById("listaStazioni").removeAll
+    for (let i in dati) {
+
+      const li = document.createElement("li") // nuovo li ogni giro
+      li.innerHTML = dati[i].Nome_Stazione
+      li.classList.add("cursor-pointer")
+      li.classList.add("w-fit")
+      li.classList.add("hover:text-slate-500")
+
+      li.addEventListener("click", () => {
+        const lista = document.getElementById("listaStazioni")
+        tabelStat = tabelStat = webmap.tables.find(t => t.title === dati[i].ID_Centralina + "_Stat")
+        tabel = webmap.tables.find(t => t.title === dati[i].ID_Centralina)
+        for (const li of lista.children) {
+          li.addEventListener("click", () => {
+            // resetta il colore a tutti
+            for (const other of lista.children) {
+              other.style.color = ""   // reset (torna al CSS/Tailwind di default)
+            }
+
+            // applica colore solo al selezionato
+            li.style.color = "#ce9158"
+          })
+        }
+        divLista.style.padding = "1"
+
+        divLista.style.width = "0px";
+        close.style.display = "none"
+        open.style.display = "block"
+        highlightLayer.removeAll();
+
+
+        const nomeLabel = document.getElementById("nome")
+        nomeLabel.innerHTML = dati[i].Nome_Stazione
+
+        const ID_Centralina = document.getElementById("id")
+        ID_Centralina.innerHTML = dati[i].ID_Centralina
+
+        const cartellini = document.getElementById("numero")
+        cartellini.innerHTML = dati[i].Cart_Elaborati
+
+        const posizione = document.getElementById("posizione")
+        posizione.innerHTML = dati[i].Longitudine + "°N " + dati[i].Latitudine + "°E ~ m s.l.m. " + dati[i].Quota + "m"
+
+        globalID.innerHTML = dati[i].globalID
+        codiceArpa.innerHTML = dati[i].
+Cod_Arpa
+
+        indirizzo.innerHTML = dati[i].indirizzo
+        ellissoide.innerHTML = dati[i].Ellissoide
+        arpa.innerHTML = dati[i].Dati_da_Arpa
+
+        graph.grafico([(dati[i].Cart_Elaborati - dati[i].Attenzionati - dati[i].Malfunzionanti - dati[i].Zero_Pioggia - dati[i].Discordanti), dati[i].Zero_Pioggia, dati[i].Malfunzionanti], ctx)
+
+        Array.from(appearOC).forEach(f => {
+          if (f.style.visibility === "hidden") {
+            f.style.visibility = "visible";
+          } else if (f.style.display === "none") {
+            f.style.display = "flex";
+          }
+        })
+
+        Array.from(disapp).forEach(f => {
+          if (f.style.visibility === "visible") {
+            f.style.visibility = "hidden";
+          } else if (f.style.display === "flex") {
+            f.style.display = "none";
+          }
+        })
+
+        spanDefault()
+        dispDefault()
+        tabella(tabel, "1=1")
+        service.calcolaSpan(tabel)
+
+        if (window.matchMedia("(min-width:1080px)").matches) {
+          sel.style.display = "none"
+
+        } else {
+          mappa.style.height = "100%"
+          dat.style.display = "block"
+
+        }
+
+        viewDiv.style.width = "100%";
+
+        sel.style.visibility = "hidden";
+
+        setMinDateFromAPI();
+        graph.graficocumulata(cumul, tabel, "1=1")
+        graph.graficoietogramma(iet, tabel, "1=1")
+        graph.matrix(tabelStat, coommits, "1=1");
+        let urltuttidati = 'https://www.datascan.it/DatiCentraline/' + dati[i].ID_Centralina + '.txt'
+        document.getElementById('tuttiDati').addEventListener('click', function () {
+          window.open(urltuttidati, '_blank');
+        });
+
+      })
+
+
+      document.getElementById("listaStazioni").appendChild(li)
+    }
     console.log(dati);
   });
 
-  
+
   if (layer) {
     layer.popupEnabled = false;
     view.on("pointer-move", async (event) => {
@@ -206,8 +333,8 @@ view.when(() => {
       mappa.style.transition = originalTransition;
       const response = await view.hitTest(event);
       const result = response.results.find(r => r.graphic?.layer === layer);
-      
-      
+
+
       if (result) {
         const clickedGraphic = result.graphic;
 
@@ -228,46 +355,62 @@ view.when(() => {
             type: "simple-marker",
             style: "circle",
             color: [255, 255, 255, 1],  // Bianco pieno
-            size: "22px",               // Più visibile
+            size: "17px",               // Più visibile
             outline: {
               color: [216, 145, 80, 1],      // Bordo nero
               width: 2
             }
           };
-        
-        highlightLayer.removeAll(); // pulisce i simboli precedenti
-         if (fullFeature.geometry) {
-            const highlightGraphic = new Graphic({
-            geometry: fullFeature.geometry,
-            symbol: highlightSymbol
-        });
-        highlightLayer.add(highlightGraphic);
-      }
 
+          highlightLayer.removeAll(); // pulisce i simboli precedenti
+          if (fullFeature.geometry) {
+            const highlightGraphic = new Graphic({
+              geometry: fullFeature.geometry,
+              symbol: highlightSymbol
+            });
+            highlightLayer.add(highlightGraphic);
+          }
+
+          const lista = document.getElementById("listaStazioni")
+
+          for (const li of lista.children) {
+
+            for (const other of lista.children) {
+              other.style.color = ""   // reset (torna al CSS/Tailwind di default)
+            }
+          }
+
+          for (const child of lista.childNodes) {
+            if (child.nodeType === 1) { // 1 = elemento, ignora text nodes
+              if (child.innerHTML === fullFeature.attributes["Nome_Stazione"]) {
+                child.style.color = "#ce9158"
+              }
+            }
+          }
           const nomeLabel = document.getElementById("nome")
           nomeLabel.innerHTML = fullFeature.attributes["Nome_Stazione"]
 
           const ID_Centralina = document.getElementById("id")
-          ID_Centralina.innerHTML = "-";//fullFeature.attributes["ID_Centralina"]
+          ID_Centralina.innerHTML = fullFeature.attributes["ID_Centralina"]
 
           const cartellini = document.getElementById("numero")
           cartellini.innerHTML = fullFeature.attributes["Cart_Elaborati"]
 
           const posizione = document.getElementById("posizione")
-          posizione.innerHTML =  fullFeature.attributes["Longitudine"] + "°N " + fullFeature.attributes["Latitudine"] + "°E ~ m SLM: " +   fullFeature.attributes["Quota"] + "m"
+          posizione.innerHTML = fullFeature.attributes["Longitudine"] + "°N " + fullFeature.attributes["Latitudine"] + "°E ~ m s.l.m. " + fullFeature.attributes["Quota"] + "m"
 
           globalID.innerHTML = fullFeature.attributes["GlobalID"]
           codiceArpa.innerHTML = fullFeature.attributes["Codice Arpa"]
           indirizzo.innerHTML = fullFeature.attributes["Indirizzo"]
           ellissoide.innerHTML = fullFeature.attributes["Ellissoide"]
           arpa.innerHTML = fullFeature.attributes["Dati da Arpa"]
-        
-          
-          graph.grafico([fullFeature.attributes["Attenzionati"], fullFeature.attributes["Malfunzionanti"], fullFeature.attributes["Zero_Pioggia"], fullFeature.attributes["Discordanti"], (fullFeature.attributes["Cart_Elaborati"] - fullFeature.attributes["Attenzionati"] - fullFeature.attributes["Malfunzionanti"] - fullFeature.attributes["Zero_Pioggia"] - fullFeature.attributes["Discordanti"])], ctx)
+
+
+          graph.grafico([(fullFeature.attributes["Cart_Elaborati"] - fullFeature.attributes["Attenzionati"] - fullFeature.attributes["Malfunzionanti"] - fullFeature.attributes["Zero_Pioggia"] - fullFeature.attributes["Discordanti"]), fullFeature.attributes["Zero_Pioggia"], fullFeature.attributes["Malfunzionanti"]], ctx)
 
           console.log(fullFeature.attributes["ID_Centralina"])
           tabel = webmap.tables.find(t => t.title === fullFeature.attributes["ID_Centralina"])
-          tabelStat = webmap.tables.find(t => t.title === fullFeature.attributes["ID_Centralina"]+ "_Stat")
+          tabelStat = webmap.tables.find(t => t.title === fullFeature.attributes["ID_Centralina"] + "_Stat")
           console.log(tabel)
 
           Array.from(appearOC).forEach(f => {
@@ -285,7 +428,7 @@ view.when(() => {
               f.style.display = "none";
             }
           })
-         
+
           spanDefault()
           dispDefault()
           tabella(tabel, "1=1")
@@ -309,7 +452,7 @@ view.when(() => {
           graph.graficoietogramma(iet, tabel, "1=1")
           graph.matrix(tabelStat, coommits, "1=1");
           let urltuttidati = 'https://www.datascan.it/DatiCentraline/' + fullFeature.attributes["ID_Centralina"] + '.txt'
-          document.getElementById('tuttiDati').addEventListener('click', function() {
+          document.getElementById('tuttiDati').addEventListener('click', function () {
             window.open(urltuttidati, '_blank');
           });
         }
@@ -355,31 +498,31 @@ function tabella(tabel, where) {
             el.style.color = "";
             if (row.cartellino_r && row.cartellino_f !== "Non disponibile") {
               el.style.color = "#1266CD";
-               el.style.textDecoration = "underline";
+              el.style.textDecoration = "underline";
               return `<a href="https://datascan.it/cartellini/${row.cartellino_f}.jpg" target="_blank">${row.cartellino_f}</a>`;
             } else {
-              return row.cartellino_f || ""; 
+              return row.cartellino_f || "";
             }
-            
+
           }
         },
         {
           title: "Retro Cartellino",
           formatter: function (cell, formatterParams) {
-          let row = cell.getRow().getData();
-          const el = cell.getElement();
+            let row = cell.getRow().getData();
+            const el = cell.getElement();
 
-          el.style.backgroundColor = "";
-          el.style.color = "";
+            el.style.backgroundColor = "";
+            el.style.color = "";
 
-          if (row.cartellino_r && row.cartellino_r !== "Non disponibile") {
-            el.style.textDecoration = "underline";
-            el.style.color = "#1266CD";
-            return `<a href="https://datascan.it/cartellini/${row.cartellino_r}.jpg" target="_blank">${row.cartellino_r}</a>`;
-          } else {
-              
-            return row.cartellino_r || ""; 
-          }
+            if (row.cartellino_r && row.cartellino_r !== "Non disponibile") {
+              el.style.textDecoration = "underline";
+              el.style.color = "#1266CD";
+              return `<a href="https://datascan.it/cartellini/${row.cartellino_r}.jpg" target="_blank">${row.cartellino_r}</a>`;
+            } else {
+
+              return row.cartellino_r || "";
+            }
           }
         }
       ],
@@ -402,33 +545,33 @@ async function setMinDateFromAPI() {
 async function spanDefault() {
   const minDate = await service.getmindate(tabel);
   const maxdate = await service.getLastOfQuery(tabel)
-  let str = service.formattaData(new Date(minDate)) + " ~ "  +service.formattaData(new Date(maxdate))
+  let str = service.formattaData(new Date(minDate)) + " ~ " + service.formattaData(new Date(maxdate))
   Array.from(range).forEach(f => {
 
-            f.innerHTML=  str
-        })
+    f.innerHTML = str
+  })
 }
 
 async function dispDefault() {
   const minDate = await service.getmindate(tabel);
-  
+
   let date = new Date(minDate);
   date.setFullYear(date.getFullYear() + 1);
   let str = service.formattaData(new Date(minDate)) + " ~ " + service.formattaData(date);
 
-  document.getElementById("infodisp").innerHTML=  str
-      
+  document.getElementById("infodisp").innerHTML = str
+
 }
 
 async function dispDefaultCal(datstr) {
-  const datasub = datstr.substring(0,10);
+  const datasub = datstr.substring(0, 10);
   const date = new Date(datasub);
-  
+
   date.setFullYear(date.getFullYear() + 1);
   let str = datasub + " ~ " + service.formattaData(date);
 
-  document.getElementById("infodisp").innerHTML=  str
-      
+  document.getElementById("infodisp").innerHTML = str
+
 }
 
 
@@ -461,25 +604,25 @@ function downloadCSV(array, filename = "data.csv") {
 }
 
 function initdate(table) {
-    if (table == null) {
-        cal.jumpToDate(new Date())
+  if (table == null) {
+    cal.jumpToDate(new Date())
+  }
+  let primorecord;
+  table.queryFeatures({
+    where: "1=1",
+    outFields: ["*"],
+    returnGeometry: false,
+    num: 1
+  }).then((result) => {
+    if (result.features.length > 0) {
+      primorecord = result.features[0].attributes;
+      cal.jumpToDate(new Date(primorecord.DataOra))
+    } else {
+      console.log("Nessun record trovato.");
     }
-    let primorecord;
-    table.queryFeatures({
-        where: "1=1",
-        outFields: ["*"],
-        returnGeometry: false,
-        num: 1
-    }).then((result) => {
-        if (result.features.length > 0) {
-            primorecord = result.features[0].attributes;
-            cal.jumpToDate(new Date(primorecord.DataOra))
-        } else {
-            console.log("Nessun record trovato.");
-        }
-    })
+  })
 }
 
-function matrix () {
+function matrix() {
   Chart.register(MatrixController, MatrixElement);
 }

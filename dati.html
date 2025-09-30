@@ -68,11 +68,30 @@
       </div>
     </div>
   </navbar>
+
   <div
     class=" flex flex-col lg:flex-row justify-center mt-10 bg-slate-200 lg:w-fit w-screen mb-10 shadow-md relative h-[1000px] lg:h-[500px] mx-10">
-    <div style="  outline: none;" id="viewDivcont" class=" h-[500px] lg:w-[600px] z-10">
+    <div style="  outline: none;" id="viewDivcont" class=" h-[500px] lg:w-[600px] z-10 relative ">
       <div style="  outline: none;" style="width: 185%;" id="viewDiv"
-        class="z-10  w-[185%] shadow-[5px_0_8px_-4px_rgba(0,0,0,0.25)]"></div>
+        class="z-10   w-[185%] shadow-[5px_0_8px_-4px_rgba(0,0,0,0.25)]"></div>
+
+
+      <div class="flex flex-col gap-5 p-8 absolute z-100 top-0 left-0  backdrop-blur-md w-[0%] h-full overflow-hidden transition-all "
+        id="divLista" style="box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.2);">
+
+        <div class="absolute top-8 h-10 right-10 hidden cursor-pointer overflow-hidden" id="closeList"><img src="./src/images/loghi/close.svg"></div>
+        <div class="absolute top-7 left-5 cursor-pointer h-2 " id="openList"><img src="./src/images/loghi/lista.svg"></div>
+
+        <div class="text-3xl text-slate-800 overflow-hidden">
+          Lista Stazioni
+        </div>
+
+        <div class="flex h-full overflow-auto scrollbar-hidden">
+          <ul id="listaStazioni" class="mb-10  text-xl text-slate-600 flex flex-col gap-2 mask-fade ">
+            <li class="stazione cursor-pointer hover:text-slate-900">Verona</li>
+          </ul>
+        </div>
+      </div>
     </div>
 
     <div class="flex">
@@ -125,17 +144,13 @@
             <h2 id="span"></h2>
           </div>
 
-          <div class="h-65 -mt-12">
-            <canvas class="h-32" id="graficoTorta"></canvas>
+          <div class="h-76 -mt-12">
+            <canvas class="h-128" id="graficoTorta"></canvas>
           </div>
 
           <ul class="text-slate-500 -mt-12">
-            <li class="text-xs">Elaborati: Numero totale di casrtellini processati </li>
-            <li class="text-xs">Zero pioggia: Numero di cartellini per cui non è stata rilevata pioggia.</li>
-            <li class="text-xs">Discordanti: Dato incoerente o discrepante rispetto al cartellino.</li>
-            <li class="text-xs">Malfunzionanti: Non ricopre tutta la settimana con dati attendibili / presenza di neve.
-            </li>
-            <li class="text-xs">Attenzionato: Elementi già analizzati e sottoposti a verifica o correzione</li>
+            <li class="text-sm">Elaborati: Numero totale di casrtellini processati </li>
+            <li class="text-sm">Zero pioggia: Numero di cartellini per cui non è stata rilevata pioggia.</li>
           </ul>
         </div>
 
@@ -162,12 +177,13 @@
 
           <div class="flex gap-3">
             <h2 id="info" class="font-black text-slate-600">Dati da ARPA </h2>
-            <h2  id="arpa"></h2>
+            <h2 id="arpa"></h2>
           </div>
 
         </div>
       </div>
     </div>
+
   </div>
 
 

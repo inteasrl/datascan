@@ -29,16 +29,14 @@ export function grafico(dati, ctx) {
     const graficoTorta = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ['Attenzionare', 'Malfunzionanti', 'Zero Pioggia', 'Discordanti', 'Elaborati'],
+            labels: [ 'Elaborati', 'Zero Pioggia', 'Malfunzionanti'],
             datasets: [{
 
                 data: dati,
                 backgroundColor: [
-                    'rgba(96, 165, 250, 0.6)',   // funzionanti
-                    'rgba(234, 179, 8, 0.6)',   // da attenzionare
-                    'rgba(239, 68, 68, 0.6)',   // malfunzionanti
-                    'rgba(209, 213, 219, 0.6)', // zero pioggia
-                    'rgba(30, 64, 175, 0.6)'   // zdiscordanti
+                    'rgba(30, 64, 175, 0.6)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(239, 68, 68, 0.6)',      
                 ],
                 borderColor: [
                     'rgba(255, 99, 132, 1)',
