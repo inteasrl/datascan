@@ -103,25 +103,30 @@ export function formattaData(data) {
 
 export function pergiornoietogramma(dati) {
     let datiarray = [];
-    let x;
-    let y;
-    let giorno = dati[0].Giorno
-    let mmgiorno = 0
+    let giorno = dati[0].Giorno;
+    let mmgiorno = 0;
+
     dati.forEach(d => {
-        if (d.Giorno == giorno) {
-            mmgiorno = mmgiorno + d.Pioggia_mm
+        if (d.Giorno === giorno) {
+            mmgiorno += d.Pioggia_mm;
         } else {
-            let dato = { x, y }
-            dato.y = mmgiorno / 24;
-            dato.x = giorno;
-            datiarray.push(dato)
-            giorno = d.Giorno
-            mmgiorno = d.Pioggia_mm
+            datiarray.push({
+                x: giorno,
+                y: mmgiorno / 24
+            });
+            giorno = d.Giorno;
+            mmgiorno = d.Pioggia_mm;
         }
     });
-    return datiarray
-}
 
+    // 👇 push dell’ultimo giorno rimasto
+    datiarray.push({
+        x: giorno,
+        y: mmgiorno / 24
+    });
+
+    return datiarray;
+}
 export function peroraietogramma(dati) {
     let datiarray = dati.map(d => ({
             x: d.DataOra,

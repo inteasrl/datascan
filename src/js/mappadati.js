@@ -12,6 +12,7 @@ import 'chartjs-adapter-date-fns';
 import { MatrixController, MatrixElement } from 'chartjs-chart-matrix';
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import Graphic from "@arcgis/core/Graphic";
+import Point from "@arcgis/core/geometry/Point";
 
 import * as graph from "./graphfunctions.js"
 import * as service from "./services.js"
@@ -137,6 +138,16 @@ export let cal = flatpickr("#datePicker", {
 
     console.log("ciaoo" + dateStr)
     if (selectedDates.length >= 2) {
+      const maxDays = 80; // massimo range consentito
+      const start = selectedDates[0];
+      const end = selectedDates[1];
+
+      const diffTime = Math.abs(end - start);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+      if (diffDays > maxDays) {
+        alert(`Puoi selezionare al massimo ${maxDays} giorni`);
+        instance.setDate([start], true)
+      }
       Array.from(range).forEach(f => {
         f.innerHTML = dateStr
       })
@@ -151,6 +162,8 @@ export let cal = flatpickr("#datePicker", {
       } else {
         graph.graficoietogramma(iet, tabel, query)
       }
+
+
 
       if (query == null) {
         tabella(tabel, "1=1")
@@ -173,9 +186,8 @@ const webmap = new WebMap({
 const view = new MapView({
   container: "viewDiv",
   map: webmap,
-
-
 });
+
 view.popup.highlightEnabled = false;
 view.container.addEventListener('mousedown', function (e) {
   e.preventDefault(); // Impedisce il focus per rimuovere la outline nera bruttissima
@@ -191,12 +203,11 @@ const highlightSymbol = {
     width: 1
   }
 };
+
 const highlightLayer = new GraphicsLayer();
 highlightLayer.listMode = "show";
 highlightLayer.order = 999; // Lo porta sopra
 webmap.layers.add(highlightLayer);
-
-
 
 view.when(() => {
   // Trova il layer interessato
@@ -210,7 +221,7 @@ view.when(() => {
     returnGeometry: false
   }).then(result => {
     let dati = result.features.map(f => ({ ...f.attributes }));
-
+    dati.sort((a, b) => a.Nome_Stazione.localeCompare(b.Nome_Stazione, 'it', { sensitivity: 'base' }));
 
 
     //gestione lista
@@ -239,12 +250,32 @@ view.when(() => {
           })
         }
         divLista.style.padding = "1"
-
+        highlightLayer.removeAll();
         divLista.style.width = "0px";
         close.style.display = "none"
         open.style.display = "block"
-        highlightLayer.removeAll();
 
+        const highlightSymbol = {
+          type: "simple-marker",
+          style: "circle",
+          color: [255, 255, 255, 1],  // Bianco pieno
+          size: "17px",               // Più visibile
+          outline: {
+            color: [216, 145, 80, 1],      // Bordo nero
+            width: 2
+          }
+        };
+
+        const point = new Point({
+          longitude: dati[i].Longitudine,
+          latitude: dati[i].Latitudine
+        });
+
+        const highlightGraphic = new Graphic({
+          geometry: point,
+          symbol: highlightSymbol
+        });
+        highlightLayer.add(highlightGraphic);
 
         const nomeLabel = document.getElementById("nome")
         nomeLabel.innerHTML = dati[i].Nome_Stazione
@@ -260,7 +291,7 @@ view.when(() => {
 
         globalID.innerHTML = dati[i].globalID
         codiceArpa.innerHTML = dati[i].
-Cod_Arpa
+          Cod_Arpa
 
         indirizzo.innerHTML = dati[i].indirizzo
         ellissoide.innerHTML = dati[i].Ellissoide

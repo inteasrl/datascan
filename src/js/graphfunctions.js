@@ -7,7 +7,7 @@ import { TabulatorFull as Tabulator } from 'tabulator-tables';
 import 'tabulator-tables/dist/css/tabulator.min.css';
 import 'chartjs-adapter-date-fns';
 import * as service from "./services.js"
-import * as helpers  from 'chart.js/helpers';
+import * as helpers from 'chart.js/helpers';
 export { _adapters } from 'chart.js'
 import { MatrixController, MatrixElement } from 'chartjs-chart-matrix';
 Chart.register(MatrixController, MatrixElement);
@@ -29,14 +29,14 @@ export function grafico(dati, ctx) {
     const graficoTorta = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: [ 'Elaborati', 'Zero Pioggia', 'Malfunzionanti'],
+            labels: ['Elaborati', 'Zero Pioggia', 'Malfunzionanti'],
             datasets: [{
 
                 data: dati,
                 backgroundColor: [
                     'rgba(30, 64, 175, 0.6)',
                     'rgba(255, 206, 86, 1)',
-                    'rgba(239, 68, 68, 0.6)',      
+                    'rgba(239, 68, 68, 0.6)',
                 ],
                 borderColor: [
                     'rgba(255, 99, 132, 1)',
@@ -149,11 +149,16 @@ export function graficocumulata(graf, tabel, where) {
                     data: tabellasist,
                     backgroundColor: '#64748b',
                     spanGaps: true,
-                    borderWidth: 0
+                    borderWidth: 0,
+                    borderColor: 'blue',      // colore linea
+                 
+                    fill: false,              // niente area sotto la linea
+                    tension: 10,               // 0 = linee dritte tra punti, >0 = curve
+                    pointRadius: 3
                 }]
             },
             options: {
-               plugins : {
+                plugins: {
                     legend: {
                         display: false
                     }
@@ -161,6 +166,11 @@ export function graficocumulata(graf, tabel, where) {
                 parsing: false,
                 scales: {
                     x: {
+                        ticks: {
+                            autoSkip: true, // disabiliti autoSkip
+                            maxTicksLimit: 5,
+
+                        },
                         type: 'time',
                         time: {
                             unit: 'day',
@@ -215,7 +225,7 @@ export function graficoietogramma(graf, tabel, where) {
             data: {
                 labels: [],
                 datasets: [{
-                    label: 'Pioggia in mm',
+                    label: 'mm/h',
                     data: service.pergiornoietogramma(datiTabella),
                     backgroundColor: '#64748b',
                     borderWidth: 0
@@ -223,11 +233,16 @@ export function graficoietogramma(graf, tabel, where) {
             },
             options: {
                 legend: {
-                display: false // 👈 Rimuove la legenda
+                    display: false
                 },
                 parsing: false,
                 scales: {
                     x: {
+                        ticks: {
+                            autoSkip: true, // disabiliti autoSkip
+                            maxTicksLimit: 5,
+
+                        },
                         type: 'time',
                         time: {
                             unit: 'day',
@@ -240,13 +255,13 @@ export function graficoietogramma(graf, tabel, where) {
                         }
                     }
                 },
-                plugins : {
+                plugins: {
                     legend: {
                         display: false
                     }
                 }
             },
-            
+
         });
     });
 }
@@ -286,7 +301,7 @@ export function graficoietogrammaPreciso(graf, tabel, where) {
             data: {
                 labels: [],
                 datasets: [{
-                    label: 'Pioggia in mm',
+                    label: 'mm/h',
                     data: tabellasist,
                     backgroundColor: '#64748b',
                     borderWidth: 0
@@ -294,8 +309,8 @@ export function graficoietogrammaPreciso(graf, tabel, where) {
             },
             options: {
                 legend: {
-                display: false 
-                }  ,
+                    display: false
+                },
                 parsing: false,
                 scales: {
                     x: {
@@ -303,6 +318,7 @@ export function graficoietogrammaPreciso(graf, tabel, where) {
                         time: {
                             unit: 'day',
                         }
+
                     },
                     y: {
                         title: {
@@ -312,156 +328,156 @@ export function graficoietogrammaPreciso(graf, tabel, where) {
                     }
                 }
             },
-            
+
         });
     });
 
 
-    
+
 }
 
 
-function internalmatrix (ctx, dati) {
-   
+function internalmatrix(ctx, dati) {
+
 
     const scales = {
-  y: {
-    type: 'time',
-    offset: true,
-    time: {
-      unit: 'day',
-      round: 'day',
-      isoWeekday: 1,
-      parser: 'i',
-      displayFormats: {
-        day: 'iiiiii'
-      }
-    },
-    reverse: true,
-    position: 'right',
-    ticks: {
-      maxRotation: 0,
-      autoSkip: true,
-      padding: 1,
-      font: {
-        size: 9
-      }
-    },
-    grid: {
-      display: false,
-      drawBorder: false,
-      tickLength: 0
-    }
-  },
-  x: {
-    type: 'time',
-    position: 'bottom',
-    offset: true,
-    time: {
-      unit: 'week',
-      round: 'week',
-      isoWeekday: 1,
-      displayFormats: {
-        week: 'MMM dd'
-      }
-    },
-    ticks: {
-      maxRotation: 0,
-      autoSkip: true,
-      font: {
-        size: 9
-      }
-    },
-    grid: {
-      display: false,
-      drawBorder: false,
-      tickLength: 0,
-    }
-  }
-};
-
-const data = {
-  datasets: [{
-    label: 'My Matrix',
-    data:  dati,
-    shadowOffsetX: 0,            // ✅ niente ombra (se usato)
-    shadowOffsetY: 0,
-    shadowBlur: 0,
-    shadowColor: 'transparent',
-    backgroundColor(c) {
-      const value = c.dataset.data[c.dataIndex].v;
-      
-      return getColorFromValue(value);
-    },
-    borderColor(c) {
-      
-      return '#ffffff';
-    },
-
-
-    borderWidth: 1.5,
-
-    hoverBorderColor: 'blue',
-    width(c) {
-      const a = c.chart.chartArea || {};
-      return (a.right - a.left) / 53 - 1;
-    },
-    height(c) {
-      const a = c.chart.chartArea || {};
-      return (a.bottom - a.top) / 7 - 1;
-    }
-  }]
-};
-
-function getColorFromValue(value) {
-  const v = Math.min(Math.max(value, 0), 100) / 100;
-
-  // Funzione easing (quadratica morbida)
-  const easeInOutQuad = (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-  const t = easeInOutQuad(v);
-
-  const startColor = { r: 241, g: 245, b: 249 }; // slate-100 (#f1f5f9)
-  const endColor = { r: 100, g: 116, b: 139 };     // slate-500  (#64748b)
-
-  const r = Math.round(startColor.r + (endColor.r - startColor.r) * t);
-  const g = Math.round(startColor.g + (endColor.g - startColor.g) * t);
-  const b = Math.round(startColor.b + (endColor.b - startColor.b) * t);
-
-  const toHex = (x) => x.toString(16).padStart(2, '0');
-
-  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
-}
-
-const options = {
-  aspectRatio: 6,
-  plugins: {
-    legend: false,
-    tooltip: {
-      displayColors: false,
-      callbacks: {
-        title() {
-          return '';
+        y: {
+            type: 'time',
+            offset: true,
+            time: {
+                unit: 'day',
+                round: 'day',
+                isoWeekday: 1,
+                parser: 'i',
+                displayFormats: {
+                    day: 'iiiiii'
+                }
+            },
+            reverse: true,
+            position: 'right',
+            ticks: {
+                maxRotation: 0,
+                autoSkip: true,
+                padding: 1,
+                font: {
+                    size: 9
+                }
+            },
+            grid: {
+                display: false,
+                drawBorder: false,
+                tickLength: 0
+            }
         },
-        label(context) {
-          const v = context.dataset.data[context.dataIndex];
-          return ['Giorno: ' + v.d, ' Ore presenti: ' + v.v.toFixed(2)] + '%';
+        x: {
+            type: 'time',
+            position: 'bottom',
+            offset: true,
+            time: {
+                unit: 'week',
+                round: 'week',
+                isoWeekday: 1,
+                displayFormats: {
+                    week: 'MMM dd'
+                }
+            },
+            ticks: {
+                maxRotation: 0,
+                autoSkip: true,
+                font: {
+                    size: 9
+                }
+            },
+            grid: {
+                display: false,
+                drawBorder: false,
+                tickLength: 0,
+            }
         }
-      }
-    },
-  },
-  scales: scales,
-  layout: {
-    padding: {
-      top: 10
-    }
-  }
-};
+    };
 
-new Chart(ctx, {
-      type: 'matrix',
-      data: data,
-      options: options,
-      scales: scales,
+    const data = {
+        datasets: [{
+            label: 'My Matrix',
+            data: dati,
+            shadowOffsetX: 0,            // ✅ niente ombra (se usato)
+            shadowOffsetY: 0,
+            shadowBlur: 0,
+            shadowColor: 'transparent',
+            backgroundColor(c) {
+                const value = c.dataset.data[c.dataIndex].v;
+
+                return getColorFromValue(value);
+            },
+            borderColor(c) {
+
+                return '#ffffff';
+            },
+
+
+            borderWidth: 1.5,
+
+            hoverBorderColor: 'blue',
+            width(c) {
+                const a = c.chart.chartArea || {};
+                return (a.right - a.left) / 53 - 1;
+            },
+            height(c) {
+                const a = c.chart.chartArea || {};
+                return (a.bottom - a.top) / 7 - 1;
+            }
+        }]
+    };
+
+    function getColorFromValue(value) {
+        const v = Math.min(Math.max(value, 0), 100) / 100;
+
+        // Funzione easing (quadratica morbida)
+        const easeInOutQuad = (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+        const t = easeInOutQuad(v);
+
+        const startColor = { r: 241, g: 245, b: 249 }; // slate-100 (#f1f5f9)
+        const endColor = { r: 100, g: 116, b: 139 };     // slate-500  (#64748b)
+
+        const r = Math.round(startColor.r + (endColor.r - startColor.r) * t);
+        const g = Math.round(startColor.g + (endColor.g - startColor.g) * t);
+        const b = Math.round(startColor.b + (endColor.b - startColor.b) * t);
+
+        const toHex = (x) => x.toString(16).padStart(2, '0');
+
+        return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+    }
+
+    const options = {
+        aspectRatio: 6,
+        plugins: {
+            legend: false,
+            tooltip: {
+                displayColors: false,
+                callbacks: {
+                    title() {
+                        return '';
+                    },
+                    label(context) {
+                        const v = context.dataset.data[context.dataIndex];
+                        return ['Giorno: ' + v.d, ' Ore presenti: ' + v.v.toFixed(2)] + '%';
+                    }
+                }
+            },
+        },
+        scales: scales,
+        layout: {
+            padding: {
+                top: 10
+            }
+        }
+    };
+
+    new Chart(ctx, {
+        type: 'matrix',
+        data: data,
+        options: options,
+        scales: scales,
     });
 }
 
@@ -483,10 +499,10 @@ const shadowPlugin = {
 
 
 export function matrix(tabel, ctx, query) {
-   
+
     let dati = []
     const existingChart = Chart.getChart("matrix");
-   
+
     if (existingChart) {
         tabel.queryFeatures({
             where: query,
@@ -496,13 +512,13 @@ export function matrix(tabel, ctx, query) {
         }).then(result => {
             let datiTabella = result.features.map(f => ({ ...f.attributes }));
             datiTabella.forEach(element => {
-            let dt = new Date(element.Data)
-            let iso = dt.toISOString().substring(0, 10);
+                let dt = new Date(element.Data)
+                let iso = dt.toISOString().substring(0, 10);
                 dati.push({
                     x: iso,
                     y: isoDayOfWeek(dt),
                     d: iso,
-                    v: ((element.Ore_Presenti/24) * 100)
+                    v: ((element.Ore_Presenti / 24) * 100)
                 });
             });
             existingChart.data.datasets[0].data = dati;
@@ -517,7 +533,7 @@ export function matrix(tabel, ctx, query) {
         returnGeometry: false,
         num: 365
     }).then(result => {
-       
+
         let datiTabella = result.features.map(f => ({ ...f.attributes }));
         datiTabella.forEach(element => {
             let dt = new Date(element.Data)
@@ -526,59 +542,59 @@ export function matrix(tabel, ctx, query) {
                 x: iso,
                 y: isoDayOfWeek(dt),
                 d: iso,
-                v: ((element.Ore_Presenti/24) * 100)
+                v: ((element.Ore_Presenti / 24) * 100)
             });
         });
         console.log(dati)
-        internalmatrix(ctx,dati)
+        internalmatrix(ctx, dati)
     })
-    
+
 }
 
 var _seed = Date.now()
 
 export function srand(seed) {
-  _seed = seed
+    _seed = seed
 }
 
 export function rand(min, max) {
-  min = valueOrDefault(min, 0)
-  max = valueOrDefault(max, 0)
-  _seed = (_seed * 9301 + 49297) % 233280
-  return min + (_seed / 233280) * (max - min)
+    min = valueOrDefault(min, 0)
+    max = valueOrDefault(max, 0)
+    _seed = (_seed * 9301 + 49297) % 233280
+    return min + (_seed / 233280) * (max - min)
 }
 
 export function numbers(config) {
-  var cfg = config || {}
-  var min = valueOrDefault(cfg.min, 0)
-  var max = valueOrDefault(cfg.max, 100)
-  var from = valueOrDefault(cfg.from, [])
-  var count = valueOrDefault(cfg.count, 8)
-  var decimals = valueOrDefault(cfg.decimals, 8)
-  var continuity = valueOrDefault(cfg.continuity, 1)
-  var dfactor = Math.pow(10, decimals) || 0
-  var data = []
-  var i, value
+    var cfg = config || {}
+    var min = valueOrDefault(cfg.min, 0)
+    var max = valueOrDefault(cfg.max, 100)
+    var from = valueOrDefault(cfg.from, [])
+    var count = valueOrDefault(cfg.count, 8)
+    var decimals = valueOrDefault(cfg.decimals, 8)
+    var continuity = valueOrDefault(cfg.continuity, 1)
+    var dfactor = Math.pow(10, decimals) || 0
+    var data = []
+    var i, value
 
-  for (i = 0; i < count; ++i) {
-    value = (from[i] || 0) + this.rand(min, max)
-    if (this.rand() <= continuity) {
-      data.push(Math.round(dfactor * value) / dfactor)
-    } else {
-      data.push(null)
+    for (i = 0; i < count; ++i) {
+        value = (from[i] || 0) + this.rand(min, max)
+        if (this.rand() <= continuity) {
+            data.push(Math.round(dfactor * value) / dfactor)
+        } else {
+            data.push(null)
+        }
     }
-  }
 
-  return data
+    return data
 }
 
 export function isoDayOfWeek(dt) {
-  let wd = dt.getDay() // 0..6, from sunday
-  wd = ((wd + 6) % 7) + 1 // 1..7 from monday
-  return '' + wd // string so it gets parsed
+    let wd = dt.getDay() // 0..6, from sunday
+    wd = ((wd + 6) % 7) + 1 // 1..7 from monday
+    return '' + wd // string so it gets parsed
 }
 
 export function startOfToday() {
-  const d = new Date()
-  return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0, 0)
+    const d = new Date()
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0, 0)
 }
