@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+@import "flatpickr/dist/flatpickr.min.css";
 
 @layer components {
   .tab-inactive {
@@ -27,6 +27,7 @@
   src: url('../src/fonts/TitilliumWeb-Bold.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -34,6 +35,7 @@
   src: url('../src/fonts/TitilliumWeb-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 .flatpickr-day.selected,

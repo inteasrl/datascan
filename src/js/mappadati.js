@@ -3,12 +3,10 @@ import "@arcgis/map-components/components/arcgis-map";
 import "@arcgis/map-components/components/arcgis-zoom";
 import WebMap from "@arcgis/core/WebMap";
 import MapView from "@arcgis/core/views/MapView";
-import flatpickr from "flatpickr";
-import "flatpickr/dist/flatpickr.min.css";
+
+
 import { Italian } from "flatpickr/dist/l10n/it.js";
-import { TabulatorFull as Tabulator } from 'tabulator-tables';
-import 'tabulator-tables/dist/css/tabulator.min.css';
-import 'chartjs-adapter-date-fns';
+
 import { MatrixController, MatrixElement } from 'chartjs-chart-matrix';
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import Graphic from "@arcgis/core/Graphic";
@@ -16,6 +14,12 @@ import Point from "@arcgis/core/geometry/Point";
 
 import * as graph from "./graphfunctions.js"
 import * as service from "./services.js"
+
+async function loadTabulatorCSS() {
+  await import("tabulator-tables/dist/css/tabulator.min.css");
+}
+
+
 
 
 const ctx = document.getElementById('graficoTorta').getContext('2d');
@@ -27,7 +31,7 @@ const mappa = document.getElementById('viewDiv')
 const dat = document.getElementById('datediv')
 
 const tablediv = document.getElementById("tablediv")
-const tabdiv = document.getElementById("graphdiv")
+
 
 const infodisp = document.getElementById("infodisp")
 
@@ -35,14 +39,13 @@ const appearOC = document.getElementsByClassName("appearOC")
 const info = document.getElementsByClassName("info")
 const range = document.getElementsByClassName("range")
 
-const tuttiDati = document.getElementsByClassName("tuttiDati")
 const disapp = document.getElementsByClassName("disappearOC")
 
 const coommits = document.getElementById('matrix').getContext('2d');
 const selmob = document.getElementById("sel2")
 
 const selector = document.getElementsByClassName("selector")
-const infodiv = document.getElementsByClassName("info-centr")
+
 
 const infoStazione = document.getElementById("info-stazione");
 const metadati = document.getElementById("metadati");
@@ -130,50 +133,79 @@ if (window.matchMedia("(min-width:1080px)").matches) {
 let tabel = null;
 let tabelStat = null;
 
-export let cal = flatpickr("#datePicker", {
-  inline: true,
-  mode: "range",
-  locale: Italian,
-  onChange: function (selectedDates, dateStr, instance) {
+export let cal; // variabile globale / export
 
-    console.log("ciaoo" + dateStr)
-    if (selectedDates.length >= 2) {
-      const maxDays = 80; // massimo range consentito
-      const start = selectedDates[0];
-      const end = selectedDates[1];
+async function loadFlatCSS() {
+  if (document.getElementById('flatpickr-css')) return; // già caricato
+  return new Promise((resolve, reject) => {
+    const link = document.createElement('link');
+    link.id = 'flatpickr-css';
+    link.rel = 'stylesheet';
+    link.href = './flatpickr/flatpickr.min.css'; // percorso locale
+    link.onload = resolve;
+    link.onerror = reject;
+    document.head.appendChild(link);
+  });
+}
 
-      const diffTime = Math.abs(end - start);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-      if (diffDays > maxDays) {
-        alert(`Puoi selezionare al massimo ${maxDays} giorni`);
-        instance.setDate([start], true)
-      }
-      Array.from(range).forEach(f => {
-        f.innerHTML = dateStr
-      })
-      infodisp.innerHTML = dateStr.substring(0, 10) + " ~ " + (parseInt(dateStr.substring(0, 4)) + 1) + dateStr.substring(4, 10)
-      let query = ("DataOra BETWEEN '" + dateStr.substring(0, 10) + "' AND '" + dateStr.substring(14, 25) + "'")
-      let queryStat = ("Data > '" + dateStr.substring(0, 10) + "'")
-      console.log(query)
-      graph.graficocumulata(cumul, tabel, query)
-      graph.matrix(tabelStat, coommits, queryStat)
-      if (service.differenzaMinoreDiQuattroGiorni(new Date(dateStr.substring(0, 10)), new Date(dateStr.substring(dateStr.length - 10, dateStr.length)))) {
-        graph.graficoietogrammaPreciso(iet, tabel, query)
-      } else {
-        graph.graficoietogramma(iet, tabel, query)
-      }
+export async function initFlatpickr() {
+  await loadFlatCSS(); // carica il CSS
+  const { default: flatpickr } = await import("flatpickr"); // importa JS
 
+  cal = flatpickr("#datePicker", {
+    inline: true,
+    mode: "range",
+    locale: Italian,
+    onChange: function (selectedDates, dateStr, instance) {
+      console.log("ciaoo " + dateStr);
 
+      if (selectedDates.length >= 2) {
+        const maxDays = 80;
+        const start = selectedDates[0];
+        const end = selectedDates[1];
+        const diffTime = Math.abs(end - start);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
-      if (query == null) {
-        tabella(tabel, "1=1")
+        if (diffDays > maxDays) {
+          alert(`Puoi selezionare al massimo ${maxDays} giorni`);
+          instance.setDate([start], true);
+        }
 
-      } else {
-        tabella(tabel, query)
+        Array.from(range).forEach(f => f.innerHTML = dateStr);
+        infodisp.innerHTML = dateStr.substring(0, 10) + " ~ " +
+          (parseInt(dateStr.substring(0, 4)) + 1) + dateStr.substring(4, 10);
+
+        const query = `DataOra BETWEEN '${dateStr.substring(0, 10)}' AND '${dateStr.substring(14, 25)}'`;
+        const queryStat = `Data > '${dateStr.substring(0, 10)}'`;
+
+        console.log(query);
+        graph.graficocumulata(cumul, tabel, query);
+        graph.matrix(tabelStat, coommits, queryStat);
+
+        if (service.differenzaMinoreDiQuattroGiorni(
+          new Date(dateStr.substring(0, 10)),
+          new Date(dateStr.substring(dateStr.length - 10))
+        )) {
+          graph.graficoietogrammaPreciso(iet, tabel, query);
+        } else {
+          graph.graficoietogramma(iet, tabel, query);
+        }
+
+        if (!query) {
+          tabella(tabel, "1=1");
+        } else {
+          tabella(tabel, query);
+        }
       }
     }
-  }
-});
+  });
+
+  return cal; // ritorna l’istanza se vuoi usarla subito
+}
+
+document.querySelector("#datePicker").addEventListener("focus", async () => {
+  await initFlatpickr();
+}, { once: true });
 
 const webmap = new WebMap({
   portalItem: {
@@ -186,6 +218,7 @@ const webmap = new WebMap({
 const view = new MapView({
   container: "viewDiv",
   map: webmap,
+  ui: { components: [] } 
 });
 
 view.popup.highlightEnabled = false;
@@ -492,41 +525,54 @@ view.when(() => {
   }
 });
 
-function tabella(tabel, where) {
-  let datiTabella = [];
-  tabel.queryFeatures({
-    where: where,
-    outFields: ["*"],
-    returnGeometry: false
-  }).then(result => {
-    datiTabella = result.features.map(f => ({ ...f.attributes }));
+
+
+async function tabella(tabel, where) {
+  await loadTabulatorCSS();
+  // Import corretto della libreria
+  const { TabulatorFull: Tabulator } = await import("tabulator-tables");
+
+  try {
+    // Query dei dati (ArcGIS)
+    const result = await tabel.queryFeatures({
+      where,
+      outFields: ["*"],
+      returnGeometry: false
+    });
+
+    // Estraggo solo gli attributi
+    const datiTabella = result.features.map(f => ({ ...f.attributes }));
+
+    // Eventuale calcolo custom
     service.calcolaMediaESqmPioggia(datiTabella);
-    datas = datiTabella
-    let tabellasist = datiTabella.map(d => ({
+
+    // Trasformazione dati per Tabulator
+    const tabellasist = datiTabella.map(d => ({
       data: service.formatUnixToDateTime(d.DataOra),
       mm: d.Pioggia_mm,
       qualita: d.Qualita,
       cartellino_f: d.Cartellino_Fronte,
       cartellino_r: d.Cartellino_Retro
-    }))
+    }));
 
-    console.log(tabellasist);
-
-    const table = new Tabulator("#example-table", {
+    // Creazione tabella
+    new Tabulator("#example-table", {
       data: tabellasist,
-      height: "300px",
+      height: "300px",      // <-- come avevi tu
+      layout: "fitColumns", // <-- fit columns
       columns: [
         { title: "Data", field: "data" },
         { title: "mm Pioggia", field: "mm" },
-        { title: "Qualita", field: "qualita" },
+        { title: "Qualità", field: "qualita" },
         {
           title: "Fronte Cartellino",
-          formatter: function (cell, formatterParams) {
-            let row = cell.getRow().getData(); // dati di riga
+          formatter: function (cell) {
+            let row = cell.getRow().getData();
             const el = cell.getElement();
 
             el.style.backgroundColor = "";
             el.style.color = "";
+
             if (row.cartellino_r && row.cartellino_f !== "Non disponibile") {
               el.style.color = "#1266CD";
               el.style.textDecoration = "underline";
@@ -534,12 +580,11 @@ function tabella(tabel, where) {
             } else {
               return row.cartellino_f || "";
             }
-
           }
         },
         {
           title: "Retro Cartellino",
-          formatter: function (cell, formatterParams) {
+          formatter: function (cell) {
             let row = cell.getRow().getData();
             const el = cell.getElement();
 
@@ -551,21 +596,25 @@ function tabella(tabel, where) {
               el.style.color = "#1266CD";
               return `<a href="https://datascan.it/cartellini/${row.cartellino_r}.jpg" target="_blank">${row.cartellino_r}</a>`;
             } else {
-
               return row.cartellino_r || "";
             }
           }
         }
-      ],
-
-      layout: "fitColumns",
+      ]
     });
-  });
+
+  } catch (err) {
+    console.error("Errore nella creazione della tabella:", err);
+  }
 }
 
 
 
+
 async function setMinDateFromAPI() {
+   if (!cal) {
+    await initFlatpickr(); // sicurezza extra
+  }
   const minDate = await service.getmindate(tabel);
   const maxdate = await service.getmaxdate(tabel)
   cal.set("minDate", minDate);

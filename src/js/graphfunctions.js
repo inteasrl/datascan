@@ -2,12 +2,11 @@ import '../style.css'
 import "@arcgis/map-components/components/arcgis-map";
 import "@arcgis/map-components/components/arcgis-zoom";
 import { Chart } from 'chart.js/auto';
-import "flatpickr/dist/flatpickr.min.css";
-import { TabulatorFull as Tabulator } from 'tabulator-tables';
-import 'tabulator-tables/dist/css/tabulator.min.css';
+
+
 import 'chartjs-adapter-date-fns';
 import * as service from "./services.js"
-import * as helpers from 'chart.js/helpers';
+
 export { _adapters } from 'chart.js'
 import { MatrixController, MatrixElement } from 'chartjs-chart-matrix';
 Chart.register(MatrixController, MatrixElement);

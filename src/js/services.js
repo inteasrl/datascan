@@ -1,9 +1,9 @@
 import '../style.css'
 import "@arcgis/map-components/components/arcgis-map";
 import "@arcgis/map-components/components/arcgis-zoom";
-import "flatpickr/dist/flatpickr.min.css";
-import 'tabulator-tables/dist/css/tabulator.min.css';
-import 'chartjs-adapter-date-fns';
+
+
+
 
 const med = document.getElementById('media')
 const scart = document.getElementById('SQM')

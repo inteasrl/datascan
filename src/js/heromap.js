@@ -1,11 +1,12 @@
+import '../style.css'
+import "@arcgis/map-components/components/arcgis-map";
+import "@arcgis/map-components/components/arcgis-zoom";
+import WebMap from "@arcgis/core/WebMap";
+import MapView from "@arcgis/core/views/MapView";
 
-require([
-  "esri/WebMap",
-  "esri/views/MapView",
-  "esri/widgets/FeatureTable",
-  "esri/core/reactiveUtils",
-  "esri/layers/support/ImageElement"
-], function (WebMap, MapView, FeatureTable, reactiveUtils, ImageElement) {
+
+
+
 
   var webmap = new WebMap({
     portalItem: {
@@ -32,9 +33,9 @@ require([
   view.on("drag", (event) => event.stopPropagation());
   view.on("double-click", (event) => event.stopPropagation());
   view.on("double-click", ["Control"], (event) => event.stopPropagation());
-view.container.addEventListener('mousedown', function (e) {
-  e.preventDefault(); // Impedisce il focus per rimuovere la outline nera bruttissima
-});
+  view.container.addEventListener('mousedown', function (e) {
+    e.preventDefault(); // Impedisce il focus per rimuovere la outline nera bruttissima
+  });
 
   view.when(function () {
     view.goTo(
@@ -47,5 +48,5 @@ view.container.addEventListener('mousedown', function (e) {
       }
     );
   });
-})
+
 
