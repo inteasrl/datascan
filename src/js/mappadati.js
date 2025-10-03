@@ -14,13 +14,11 @@ import Point from "@arcgis/core/geometry/Point";
 
 import * as graph from "./graphfunctions.js"
 import * as service from "./services.js"
+import { setHours } from 'date-fns';
 
 async function loadTabulatorCSS() {
   await import("tabulator-tables/dist/css/tabulator.min.css");
 }
-
-
-
 
 const ctx = document.getElementById('graficoTorta').getContext('2d');
 const cumul = document.getElementById('cumulata').getContext('2d');
@@ -172,10 +170,19 @@ export async function initFlatpickr() {
         }
 
         Array.from(range).forEach(f => f.innerHTML = dateStr);
-        infodisp.innerHTML = dateStr.substring(0, 10) + " ~ " +
-          (parseInt(dateStr.substring(0, 4)) + 1) + dateStr.substring(4, 10);
+        infodisp.innerHTML = dateStr.substring(0, 10) + " ~ " + (parseInt(dateStr.substring(0, 4)) + 1) + dateStr.substring(4, 10);
 
-        const query = `DataOra BETWEEN '${dateStr.substring(0, 10)}' AND '${dateStr.substring(14, 25)}'`;
+        
+        let startDate = new Date(dateStr.substring(0, 10))
+        let startDateUTC = startDate.setUTCMinutes((startDate.getTimezoneOffset()))
+        let startISO = new Date( startDateUTC).toISOString()
+
+        let endDate =  new Date(dateStr.substring(14, 25))
+        endDate.setHours(23,59,59)
+        let endDateUTC = endDate
+        const endISO = new Date( endDateUTC).toISOString()
+
+        const query = `DataOra BETWEEN '${startISO}' AND '${endISO}'`;
         const queryStat = `Data > '${dateStr.substring(0, 10)}'`;
 
         console.log(query);
@@ -218,7 +225,7 @@ const webmap = new WebMap({
 const view = new MapView({
   container: "viewDiv",
   map: webmap,
-  ui: { components: [] } 
+  ui: { components: [] }
 });
 
 view.popup.highlightEnabled = false;
@@ -308,6 +315,17 @@ view.when(() => {
           geometry: point,
           symbol: highlightSymbol
         });
+
+        view.goTo(
+          {
+            center: point,
+            zoom: 6
+          },
+          {
+            duration: 500 // 4 secondi
+          }
+        );
+
         highlightLayer.add(highlightGraphic);
 
         const nomeLabel = document.getElementById("nome")
@@ -612,7 +630,7 @@ async function tabella(tabel, where) {
 
 
 async function setMinDateFromAPI() {
-   if (!cal) {
+  if (!cal) {
     await initFlatpickr(); // sicurezza extra
   }
   const minDate = await service.getmindate(tabel);

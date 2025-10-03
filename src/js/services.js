@@ -30,6 +30,8 @@ export function calcolaSpan(tabella) {
                 if (result.features.length > 0) {
                     primorecord = result.features[0].attributes;
                     console.log("primo record:", primorecord);
+                    console.log("primo record fuso orario Data:" + new Date (primorecord.DataOra).getUTCDate());
+                    console.log("primo record fuso orario:" + new Date (primorecord.Giorno));
                     console.log("Ultimo record:", ultimoRecord);
                     const spanval = (formattaData(new Date(primorecord.DataOra)) + " ~ " + formattaData(new Date(ultimoRecord.DataOra)))
                     span.innerHTML = spanval
@@ -107,7 +109,7 @@ export function pergiornoietogramma(dati) {
     let mmgiorno = 0;
 
     dati.forEach(d => {
-        if (d.Giorno === giorno) {
+        if (new Date(d.Giorno).getUTCDate() === new Date(giorno).getUTCDate()) {
             mmgiorno += d.Pioggia_mm;
         } else {
             datiarray.push({
@@ -246,6 +248,7 @@ export function pergiorno(dati) {
     let x;
     let y;
     let giorno = dati[0].Giorno
+
     let mmgiorno = 0
     dati.forEach(d => {
         if (d.Giorno == giorno) {

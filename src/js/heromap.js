@@ -4,10 +4,6 @@ import "@arcgis/map-components/components/arcgis-zoom";
 import WebMap from "@arcgis/core/WebMap";
 import MapView from "@arcgis/core/views/MapView";
 
-
-
-
-
   var webmap = new WebMap({
     portalItem: {
       id: "07696c5b72e64125ae75f65226471f60"  // Inserisci qui l’ID della tua WebMap
