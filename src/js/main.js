@@ -8,7 +8,7 @@ var current = 0;
 update();
 
 function update() {
-    amount.innerText = current.toLocaleString("en-US");
+    //amount.innerText = current.toLocaleString("en-US");
 }
 
 Array.from(lifin).forEach(f =>{
