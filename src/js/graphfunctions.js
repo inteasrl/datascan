@@ -84,7 +84,7 @@ export function tabella(tabel, where) {
 
         const table = new Tabulator("#example-table", {
             data: tabellasist,
-            height: "300px",
+            height: "500px",
             columns: [
                 { title: "Data", field: "data" },
                 { title: "mm Pioggia", field: "mm" },

@@ -10,19 +10,32 @@
   <style>
     body,
     html {
+      overflow: auto;
       width: 100;
     }
 
     #viewDiv {
-      height: 100%;
-      transition: width 0.5s ease, height 0.5s ease;
       width: 100%;
+      height: 100%;
+      touch-action: none;
+      /* ArcGIS gestisce zoom e pan */
+    }
+
+    #divLista {
+      touch-action: auto;
+      /* permette al figlio di ricevere tutti i gesti */
+      pointer-events: auto;
+      /* necessario se il genitore aveva pointer-events: none */
+    }
+
+    #divLista.active {
+      pointer-events: auto;
     }
   </style>
 </head>
 
 <body style="font-family: 'titillium-bold', sans-serif; "
-  class="flex flex-col justify-between  items-center noselect w-screen">
+  class="flex flex-col justify-between  w-screen items-center noselect  ">
   <inst draggable="false" class="w-full">
     <div class="bg-myblue w-full h-fit p-3 flex justify-center items-center">
       <div draggable="false" class="flex w-[80%]  justify-around items-center">
@@ -34,8 +47,6 @@
       </div>
     </div>
   </inst>
-
-
 
   <navbar style="font-family: 'titillium-bold', sans-serif; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);"
     class="sticky z-200 top-0 bg-gray-50 flex flex-col w-full items-center  justify-center py-5 text-gray-600">
@@ -66,17 +77,17 @@
   </navbar>
 
   <div
-    class=" flex flex-col lg:flex-row justify-center mt-10 bg-slate-200 lg:w-fit w-screen mb-10 shadow-md relative h-[1000px] lg:h-[500px] mx-10">
+    class="overflow-hidden  flex flex-col lg:flex-row justify-center mt-10 bg-slate-200 lg:w-fit w-full mb-10 shadow-md relative h-[1000px] lg:h-[500px] ">
     <div style="  outline: none;" id="viewDivcont" class=" h-[500px] lg:w-[600px] z-10 relative ">
       <div style="  outline: none;" style="width: 185%;" id="viewDiv"
-        class="z-10   w-[185%] shadow-[5px_0_8px_-4px_rgba(0,0,0,0.25)]"></div>
+        class="z-10 overflow-hidden  w-[185%] shadow-[5px_0_8px_-4px_rgba(0,0,0,0.25)]"></div>
 
 
       <div
-        class="flex flex-col gap-5 p-8 absolute z-100 top-0 left-0  backdrop-blur-md w-[0%] h-full overflow-hidden transition-all "
+        class="flex flex-col gap-5 h-full p-8 absolute z-100 top-0 left-0  backdrop-blur-md w-[0%] h-full overflow-hidden transition-all "
         id="divLista" style="box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.2);">
 
-        <div class="absolute top-8 h-10 right-10 hidden cursor-pointer overflow-hidden" id="closeList"><img
+        <div class="absolute top-8 h-10 right-10 hidden cursor-pointer" id="closeList"><img
             src="./src/images/loghi/close.svg" alt="close" loading="lazy"></div>
         <div class="absolute top-7 left-5 cursor-pointer h-2 " id="openList"><img src="./src/images/loghi/lista.svg"
             alt="open"></div>
@@ -111,7 +122,6 @@
           <h1 style="font-family: titillium-bold, sans-serif; " class="mb-5 tab-inactive selector">
             METADATI</h1>
         </div>
-
 
         <div id="info-stazione">
           <div class="flex gap-3">
@@ -155,10 +165,7 @@
 
 
         <div class="hidden" id="metadati">
-          <div class="flex gap-3">
-            <h2 class="font-black text-slate-600">Codice Internazionale: </h2>
-            <h2 id="globalID"></h2>
-          </div>
+
           <div class="flex gap-3">
             <h2 class="font-black text-slate-600">Codice Arpa:</h2>
             <h2 id="codiceArpa"></h2>
@@ -188,11 +195,24 @@
 
 
   <div style="font-family: def, sans-serif; display: none;" id="tablediv"
-    class="appearOC flex justify-between w-screen lg:p-0 px-10 lg:w-[1180px] gap-10 flex-col lg:flex-row relative font-medium  mb-10">
-    <div id="datediv" class="absolute right-20 -top-120 lg:left-0 lg:top-0 lg:relative">
-      <input class="rounded-0" style="display: none;" id="datePicker" type="text" />
+    class=" appearOC flex  justify-between   w-screen lg:p-0 px-10 lg:w-[1180px] gap-10 flex-col lg:flex-row relative font-medium  mb-10">
+    <div id="datediv" class="absolute right-20 bg-slate-100 -top-120 lg:left-0 w-[600px] lg:top-0 lg:relative p-8"
+      style=" box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);">
+      <h3 class="font-black text-xl text-slate-600">Cambia Range Date</h3>
+      <p class="text-sm text-slate-400">massimo span selezionabile 80gg</p>
+      <h3 class="mt-4 mb-1 font-bold text-slate-500">Data di inizio</h3>
+      <input
+         autocomplete="off" class="rounded-0 w-full outline-1 outline-gray-200 bg-white mb-2 h-10 text-slate-500 pl-2"
+        placeholder="AAAA-MM-GG" style=" " id="dataInizio" type="text" />
+      <h3 class="mb-2 text-slate-500 font-bold">Data di fine</h3>
+      <input
+         autocomplete="off" class="rounded-0 w-full outline-1 outline-gray-200 bg-white mb-2 h-10 text-slate-600 pl-2"
+        placeholder="AAAA-MM-GG" id="dataFine" type="text" />
+         <button id="cerca"
+          class=" px-4 h-12 shadow-xl hover:scale-102 transform transition-all cursor-pointer bg-instblue text-white mt-5">Cerca dati Selezionati</button>
+      
     </div>
-    <div class="w-full" id="example-table"></div>
+    <div class="w-full h-[500px]" id="example-table"></div>
   </div>
 
   <div class="w-screen px-10 lg:px-0 lg:w-[1180px] lg:mx-0 ">
@@ -294,8 +314,8 @@
     class="appearOC h-52 w-full bg-instblue flex items-center justify-center shadow 2xl mt-10">
     <div class="flex w-[90%] lg:w-[1180px] justify-between items-center">
       <div class=" ml-5">
-        <img class="h-10 lg:h-12 mr-5 w-auto object-contain mb-4" src="./src/images/loghi/Return_logo.webp"
-          alt="return logo" loading="lazy">
+        <img class="h-10 lg:h-12 mr-5 w-auto object-contain mb-4" src="./src/images/loghi/Return_logo.png"
+          alt="return logo">
         <img class="h-10 lg:h-15 w-auto" src="./src/images/loghi/logoInteaBianco2.svg" alt="intea logo" loading="lazy">
       </div>
       <div><img class="h-22 lg:h-32" src="./src/images/loghi/logowhite.png" alt="logo datascan" loading="lazy"></div>
@@ -309,7 +329,6 @@
       </div>
     </div>
   </footer>
-
 </body>
 
 </html>

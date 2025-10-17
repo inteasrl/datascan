@@ -48,7 +48,6 @@ const selector = document.getElementsByClassName("selector")
 const infoStazione = document.getElementById("info-stazione");
 const metadati = document.getElementById("metadati");
 
-const globalID = document.getElementById("globalID");
 const codiceArpa = document.getElementById("codiceArpa");
 const indirizzo = document.getElementById("indirizzo");
 const ellissoide = document.getElementById("ellissoide");
@@ -56,13 +55,14 @@ const arpa = document.getElementById("arpa");
 
 const divLista = document.getElementById("divLista");
 
+
 const close = document.getElementById("closeList");
 close.addEventListener("click", () => {
   divLista.style.padding = "1"
-
   divLista.style.width = "0px";
   close.style.display = "none"
   open.style.display = "block"
+  divLista.classList.remove("active");
 })
 
 const open = document.getElementById("openList");
@@ -71,6 +71,7 @@ open.addEventListener("click", () => {
   divLista.style.width = "100%";
   close.style.display = "block"
   open.style.display = "none"
+  divLista.classList.add("active");
 })
 
 for (let i = 0; i < selector.length; i++) {
@@ -132,6 +133,8 @@ let tabel = null;
 let tabelStat = null;
 
 export let cal; // variabile globale / export
+export let inizioCal;
+export let fineCal;
 
 async function loadFlatCSS() {
   if (document.getElementById('flatpickr-css')) return; // già caricato
@@ -151,8 +154,9 @@ export async function initFlatpickr() {
   const { default: flatpickr } = await import("flatpickr"); // importa JS
 
   cal = flatpickr("#datePicker", {
-    inline: true,
+
     mode: "range",
+    allowInput: true, 
     locale: Italian,
     onChange: function (selectedDates, dateStr, instance) {
       console.log("ciaoo " + dateStr);
@@ -210,16 +214,40 @@ export async function initFlatpickr() {
   return cal; // ritorna l’istanza se vuoi usarla subito
 }
 
-document.querySelector("#datePicker").addEventListener("focus", async () => {
-  await initFlatpickr();
-}, { once: true });
+export async function initDate() {
+  await loadFlatCSS(); // carica il CSS
+  const { default: flatpickr } = await import("flatpickr"); // importa JS
+
+  inizioCal = flatpickr("#dataInizio", {
+     allowInput: true, 
+    locale: Italian,
+  });
+  return inizioCal; // ritorna l’istanza se vuoi usarla subito
+}
+
+export async function endDate() {
+  await loadFlatCSS(); // carica il CSS
+  const { default: flatpickr } = await import("flatpickr"); // importa JS
+
+  fineCal = flatpickr("#dataFine", {
+
+   
+    allowInput: true, 
+    locale: Italian,
+    
+  });
+
+  return fineCal; // ritorna l’istanza se vuoi usarla subito
+}
+
+await Promise.all([initDate(), endDate()]);
+
 
 const webmap = new WebMap({
   portalItem: {
     id: "07696c5b72e64125ae75f65226471f60",
     popupEnabled: false
   },
-
 });
 
 const view = new MapView({
@@ -232,6 +260,10 @@ view.popup.highlightEnabled = false;
 view.container.addEventListener('mousedown', function (e) {
   e.preventDefault(); // Impedisce il focus per rimuovere la outline nera bruttissima
 });
+
+view.container.addEventListener("touchstart", (e) => e.stopPropagation());
+view.container.addEventListener("touchmove", (e) => e.stopPropagation());
+view.container.addEventListener("touchend", (e) => e.stopPropagation());
 
 const highlightSymbol = {
   type: "simple-marker",
@@ -262,7 +294,6 @@ view.when(() => {
   }).then(result => {
     let dati = result.features.map(f => ({ ...f.attributes }));
     dati.sort((a, b) => a.Nome_Stazione.localeCompare(b.Nome_Stazione, 'it', { sensitivity: 'base' }));
-
 
     //gestione lista
     document.getElementById("listaStazioni").removeAll
@@ -340,7 +371,6 @@ view.when(() => {
         const posizione = document.getElementById("posizione")
         posizione.innerHTML = dati[i].Longitudine + "°N " + dati[i].Latitudine + "°E ~ m s.l.m. " + dati[i].Quota + "m"
 
-        globalID.innerHTML = dati[i].globalID
         codiceArpa.innerHTML = dati[i].
           Cod_Arpa
 
@@ -394,7 +424,6 @@ view.when(() => {
         });
 
       })
-
 
       document.getElementById("listaStazioni").appendChild(li)
     }
@@ -480,13 +509,11 @@ view.when(() => {
 
           const posizione = document.getElementById("posizione")
           posizione.innerHTML = fullFeature.attributes["Longitudine"] + "°N " + fullFeature.attributes["Latitudine"] + "°E ~ m s.l.m. " + fullFeature.attributes["Quota"] + "m"
-
-          globalID.innerHTML = fullFeature.attributes["GlobalID"]
+         
           codiceArpa.innerHTML = fullFeature.attributes["Codice Arpa"]
           indirizzo.innerHTML = fullFeature.attributes["Indirizzo"]
           ellissoide.innerHTML = fullFeature.attributes["Ellissoide"]
           arpa.innerHTML = fullFeature.attributes["Dati da Arpa"]
-
 
           graph.grafico([(fullFeature.attributes["Cart_Elaborati"] - fullFeature.attributes["Attenzionati"] - fullFeature.attributes["Malfunzionanti"] - fullFeature.attributes["Zero_Pioggia"] - fullFeature.attributes["Discordanti"]), fullFeature.attributes["Zero_Pioggia"], fullFeature.attributes["Malfunzionanti"]], ctx)
 
@@ -543,8 +570,6 @@ view.when(() => {
   }
 });
 
-
-
 async function tabella(tabel, where) {
   await loadTabulatorCSS();
   // Import corretto della libreria
@@ -576,7 +601,7 @@ async function tabella(tabel, where) {
     // Creazione tabella
     new Tabulator("#example-table", {
       data: tabellasist,
-      height: "300px",      // <-- come avevi tu
+      height: "350px",      // <-- come avevi tu
       layout: "fitColumns", // <-- fit columns
       columns: [
         { title: "Data", field: "data" },
@@ -630,13 +655,21 @@ async function tabella(tabel, where) {
 
 
 async function setMinDateFromAPI() {
-  if (!cal) {
-    await initFlatpickr(); // sicurezza extra
+ 
+  if (!inizioCal && !fineCal) {
+    await initDate();
+    await endDate(); // sicurezza extra
   }
   const minDate = await service.getmindate(tabel);
   const maxdate = await service.getmaxdate(tabel)
-  cal.set("minDate", minDate);
-  cal.set("maxDate", maxdate);
+   const lastDate = await service.getLastOfQuery(tabel)
+  inizioCal.set("minDate", minDate);
+  inizioCal.set("maxDate", maxdate);
+  inizioCal.setDate(minDate, true);
+
+  fineCal.set("minDate", minDate);
+  fineCal.set("maxDate", maxdate);
+  fineCal.setDate(lastDate, true);
   initdate(tabel)
 }
 
@@ -669,7 +702,6 @@ async function dispDefaultCal(datstr) {
   let str = datasub + " ~ " + service.formattaData(date);
 
   document.getElementById("infodisp").innerHTML = str
-
 }
 
 
@@ -703,7 +735,7 @@ function downloadCSV(array, filename = "data.csv") {
 
 function initdate(table) {
   if (table == null) {
-    cal.jumpToDate(new Date())
+    
   }
   let primorecord;
   table.queryFeatures({
@@ -714,7 +746,9 @@ function initdate(table) {
   }).then((result) => {
     if (result.features.length > 0) {
       primorecord = result.features[0].attributes;
-      cal.jumpToDate(new Date(primorecord.DataOra))
+      
+      fineCal.jumpToDate(new Date(primorecord.DataOra))
+      inizioCal.jumpToDate(new Date(primorecord.DataOra))
     } else {
       console.log("Nessun record trovato.");
     }

@@ -21,6 +21,10 @@ import MapView from "@arcgis/core/views/MapView";
 
   });
 
+  view.container.addEventListener("touchstart", e => e.preventDefault());
+view.container.addEventListener("touchmove", e => e.preventDefault());
+view.container.addEventListener("touchend", e => e.preventDefault());
+
   view.ui.remove("zoom");
   view.ui.remove("OUTLINE");
 
